@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W3 · This is my friend — Talk It Easy English for Agribusiness</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1a5c1a;--green-light:#e8f4e8;--green-mid:#2e7d2e;
+    --amber:#b85c00;--amber-light:#fff3e0;
+    --navy:#1a2a5c;--navy-light:#e8ecf8;--navy-mid:#2a3f8f;
+    --teal:#1a4a4a;--teal-light:#e0f0f0;--teal-mid:#2a7070;
+    --gray-50:#f9fafb;--gray-200:#e5e7eb;--gray-600:#4b5563;--gray-700:#374151;--gray-800:#1f2937;
+    --correct:#166534;--wrong:#991b1b;--open:#1a4a4a;
+    --radius:12px;--radius-sm:8px;--shadow:0 2px 12px rgba(0,0,0,.08);
+    --header-h:60px;--tabs-h:52px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--gray-50);color:var(--gray-800);min-height:100vh;padding-top:calc(var(--header-h) + var(--tabs-h));}
+
+  #main-header{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--header-h);background:var(--green);display:flex;align-items:center;padding:0 16px;box-shadow:0 2px 12px rgba(0,0,0,.2);gap:8px;}
+  #main-header .logo{font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;flex-shrink:0;}
+  #main-header .logo span{opacity:.7;font-size:.85rem;}
+  #main-header .week-badge{background:rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:.85rem;padding:4px 14px;border-radius:20px;font-family:'JetBrains Mono',monospace;flex-shrink:0;}
+  .header-actions{display:flex;align-items:center;gap:6px;margin-left:auto;}
+  .hbtn{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:5px 12px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;white-space:nowrap;}
+  .hbtn:hover{background:rgba(255,255,255,.28);}
+  .hbtn-danger{background:rgba(220,38,38,.25);border-color:rgba(220,38,38,.4);}
+  .hbtn-danger:hover{background:rgba(220,38,38,.4);}
+  .save-indicator{font-size:.68rem;color:rgba(255,255,255,.6);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+  @media(max-width:600px){#main-header .logo span{display:none;}.hbtn span.hbtn-label{display:none;}.save-indicator{display:none;}.hbtn{padding:5px 9px;}}
+
+  #day-tabs{position:fixed;top:var(--header-h);left:0;right:0;z-index:99;height:var(--tabs-h);background:#fff;border-bottom:2px solid var(--gray-200);display:flex;align-items:stretch;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto;scrollbar-width:none;}
+  #day-tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:1;min-width:70px;border:none;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;color:var(--gray-600);transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-bottom:3px solid transparent;padding:0 4px;line-height:1.2;}
+  .tab-btn .day-num{font-size:.68rem;font-weight:700;opacity:.6;font-family:'JetBrains Mono',monospace;}
+  .tab-btn:hover{background:var(--gray-50);color:var(--green);}
+  .tab-btn.active{color:var(--green);border-bottom-color:var(--green);background:var(--green-light);}
+
+  .day-panel{display:none;max-width:900px;margin:0 auto;padding:32px 20px 60px;}
+  .day-panel.active{display:block;}
+
+  .day-hero{border-radius:var(--radius);padding:28px 32px;margin-bottom:28px;background:linear-gradient(135deg,var(--green) 0%,var(--green-mid) 100%);color:#fff;position:relative;overflow:hidden;}
+  .day-hero-teal{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-mid) 100%);}
+  .day-hero::after{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.07);}
+  .day-hero .day-label{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;opacity:.75;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+  .day-hero h1{font-family:'DM Serif Display',serif;font-size:1.9rem;margin-bottom:8px;}
+  .day-hero p{opacity:.85;font-size:.95rem;max-width:560px;}
+  .video-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);color:#fff;padding:10px 20px;border-radius:40px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;text-decoration:none;margin-top:16px;transition:all .2s;}
+  .video-btn:hover{background:rgba(255,255,255,.32);transform:translateY(-1px);}
+
+  .card{border-radius:var(--radius);padding:24px 28px;margin-bottom:20px;box-shadow:var(--shadow);}
+  .card-green{background:var(--green-light);border-left:4px solid var(--green);}
+  .card-amber{background:var(--amber-light);border-left:4px solid var(--amber);}
+  .card-navy{background:var(--navy-light);border-left:4px solid var(--navy);}
+  .card-teal{background:var(--teal-light);border-left:4px solid var(--teal);}
+  .card-title{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:14px;}
+  .card-green .card-title{color:var(--green);}.card-amber .card-title{color:var(--amber);}
+  .card-navy .card-title{color:var(--navy);}.card-teal .card-title{color:var(--teal);}
+
+  .outcomes-list{list-style:none;}
+  .outcomes-list li{padding:8px 0 8px 28px;position:relative;font-size:.95rem;border-bottom:1px solid rgba(26,92,26,.12);}
+  .outcomes-list li:last-child{border-bottom:none;}
+  .outcomes-list li::before{content:'\2713';position:absolute;left:0;color:var(--green);font-weight:700;}
+
+  /* FLASHCARD */
+  .fc-wrapper{margin-bottom:20px;}
+  .voice-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  .voice-label{font-size:.75rem;color:var(--gray-600);}
+  .voices-loading{font-size:.75rem;color:var(--gray-600);font-style:italic;}
+  .vbtn{padding:4px 12px;border-radius:99px;border:1px solid var(--gray-200);background:transparent;font-size:.75rem;color:var(--gray-600);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+  .vbtn:hover{background:var(--green-light);border-color:var(--green);}
+  .vbtn.active{background:var(--green-light);color:var(--green);border-color:var(--green);font-weight:600;}
+  .fc-dots{display:flex;gap:5px;justify-content:center;margin-bottom:10px;flex-wrap:wrap;}
+  .fc-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-200);cursor:pointer;transition:all .2s;}
+  .fc-dot.active{background:var(--green);transform:scale(1.3);}
+  .fc-dot.done{background:var(--green);opacity:.4;}
+  .fc-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .fc-counter{font-size:.8rem;color:var(--gray-600);}
+  .fc-arrows{display:flex;gap:6px;}
+  .fc-arrow{width:34px;height:34px;border-radius:50%;border:1px solid var(--gray-200);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+  .fc-arrow:hover{background:var(--green-light);border-color:var(--green);}
+  .fc-arrow svg{width:14px;height:14px;stroke:var(--gray-600);stroke-width:2;fill:none;}
+  .flashcard{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);min-height:230px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 24px;gap:10px;position:relative;transition:border-color .2s,box-shadow .2s;user-select:none;}
+  .flashcard:hover{border-color:var(--green);box-shadow:0 0 0 3px rgba(26,92,26,.07);}
+  .fc-side-label{position:absolute;top:12px;right:14px;font-size:.68rem;font-weight:500;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;}
+  .fc-front{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;}
+  .fc-front.hidden{display:none;}
+  .fc-back{display:none;flex-direction:column;align-items:center;gap:10px;width:100%;}
+  .fc-back.visible{display:flex;}
+  .fc-step-label{font-size:.72rem;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.06em;}
+  .fc-word{font-family:'DM Serif Display',serif;font-size:1.6rem;font-weight:700;color:var(--gray-800);line-height:1.2;}
+  .fc-ipa{font-size:.8rem;color:var(--gray-600);font-style:italic;}
+  .fc-hint{font-size:.75rem;color:var(--gray-600);margin-top:4px;}
+  .audio-btns{display:flex;gap:8px;align-items:center;margin-top:4px;}
+  .abtn{display:flex;align-items:center;gap:6px;padding:5px 13px;border-radius:99px;border:1px solid var(--gray-200);background:transparent;font-size:.75rem;color:var(--gray-600);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+  .abtn:hover{background:var(--green-light);border-color:var(--green);color:var(--green);}
+  .abtn.playing{background:var(--green-light);border-color:var(--green);color:var(--green);}
+  .abtn svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;flex-shrink:0;}
+  .spd-btn{padding:4px 10px;border-radius:99px;border:1px solid var(--gray-200);background:transparent;font-size:.7rem;color:var(--gray-600);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+  .spd-btn.active{background:var(--green-light);border-color:var(--green);color:var(--green);}
+  .fc-translation{font-family:'DM Serif Display',serif;font-size:1.25rem;font-weight:600;color:var(--green);}
+  .fc-example{font-size:.85rem;color:var(--gray-700);line-height:1.6;border-left:3px solid var(--green);padding-left:12px;text-align:left;width:100%;font-family:'JetBrains Mono',monospace;}
+  .fc-example-pt{font-size:.78rem;color:var(--gray-600);padding-left:15px;text-align:left;width:100%;font-style:italic;}
+  .fc-why{font-size:.75rem;background:var(--green-light);color:var(--green);padding:5px 14px;border-radius:99px;margin-top:4px;}
+  .fc-teal .flashcard:hover{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,74,74,.07);}
+  .fc-teal .fc-step-label{color:var(--teal);}
+  .fc-teal .fc-dot.active,.fc-teal .fc-dot.done{background:var(--teal);}
+  .fc-teal .vbtn:hover,.fc-teal .vbtn.active{background:var(--teal-light);border-color:var(--teal);color:var(--teal);}
+  .fc-teal .abtn:hover,.fc-teal .abtn.playing{background:var(--teal-light);border-color:var(--teal);color:var(--teal);}
+  .fc-teal .spd-btn.active{background:var(--teal-light);border-color:var(--teal);color:var(--teal);}
+  .fc-teal .fc-translation{color:var(--teal);}
+  .fc-teal .fc-example{border-left-color:var(--teal);}
+  .fc-teal .fc-why{background:var(--teal-light);color:var(--teal);}
+  .fc-teal .fc-arrow:hover{background:var(--teal-light);border-color:var(--teal);}
+  .fc-navy .flashcard:hover{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,42,92,.07);}
+  .fc-navy .fc-step-label{color:var(--navy);}
+  .fc-navy .fc-dot.active,.fc-navy .fc-dot.done{background:var(--navy);}
+  .fc-navy .vbtn:hover,.fc-navy .vbtn.active{background:var(--navy-light);border-color:var(--navy);color:var(--navy);}
+  .fc-navy .abtn:hover,.fc-navy .abtn.playing{background:var(--navy-light);border-color:var(--navy);color:var(--navy);}
+  .fc-navy .spd-btn.active{background:var(--navy-light);border-color:var(--navy);color:var(--navy);}
+  .fc-navy .fc-translation{color:var(--navy);}
+  .fc-navy .fc-example{border-left-color:var(--navy);}
+  .fc-navy .fc-why{background:var(--navy-light);color:var(--navy);}
+
+  .phrase-row{background:#fff;border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:8px;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .phrase-en{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:600;color:var(--navy);}
+  .phrase-pt{font-size:.82rem;color:var(--gray-600);text-align:right;flex-shrink:0;}
+  .pattern-table{width:100%;border-collapse:collapse;font-size:.9rem;}
+  .pattern-table th{background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-weight:600;}
+  .pattern-table td{padding:10px 14px;border-bottom:1px solid var(--gray-200);}
+  .pattern-table tr:nth-child(even) td{background:var(--navy-light);}
+  .mono{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--navy);}
+  .contrast-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;}
+  @media(max-width:500px){.contrast-grid{grid-template-columns:1fr;}}
+  .contrast-col .col-label{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+  .contrast-col ul{list-style:none;}
+  .contrast-col ul li{font-family:'JetBrains Mono',monospace;font-size:.83rem;padding:4px 0;}
+  .dialogue-box{background:#fff;border:1px solid var(--navy-light);border-radius:var(--radius);padding:18px 22px;margin-bottom:14px;}
+  .dialogue-label{font-size:.75rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+  .dialogue-line{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+  .dialogue-line:last-child{margin-bottom:0;}
+  .dialogue-speaker{font-weight:700;color:var(--navy);font-size:.82rem;min-width:55px;padding-top:2px;flex-shrink:0;}
+  .dialogue-text{font-family:'JetBrains Mono',monospace;font-size:.85rem;line-height:1.6;}
+  .ex-block{margin-bottom:20px;}
+  .ex-instruction{font-size:.85rem;color:var(--gray-600);margin-bottom:14px;font-style:italic;}
+  .ex-item{margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .ex-num{font-weight:700;color:var(--navy);min-width:22px;font-size:.9rem;}
+  .ex-text{font-size:.9rem;}
+  .ex-item input[type="text"]{border:2px solid var(--gray-200);border-radius:var(--radius-sm);padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:.9rem;min-width:150px;transition:border-color .2s;}
+  .ex-item input[type="text"]:focus{outline:none;border-color:var(--navy);}
+  .feedback{font-size:.82rem;}
+  .feedback.correct{color:var(--correct);}
+  .feedback.wrong{color:var(--wrong);}
+  .feedback.open{color:var(--open);}
+  .btn-check{background:var(--navy);color:#fff;border:none;padding:6px 14px;border-radius:30px;cursor:pointer;font-size:.82rem;font-weight:600;transition:background .2s;}
+  .btn-check:hover{background:var(--navy-mid);}
+  .btn-check-all{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#fff;border:none;padding:10px 22px;border-radius:30px;cursor:pointer;font-size:.9rem;font-weight:700;margin-top:14px;transition:background .2s;}
+  .btn-check-all:hover{background:var(--green-mid);}
+  .score-box{display:none;margin-top:12px;background:#fff;border:2px solid var(--gray-200);border-radius:var(--radius);padding:14px 20px;font-size:1rem;font-weight:600;text-align:center;}
+  .audio-card{background:#fff;border:1px solid var(--teal-light);border-radius:var(--radius);padding:20px 24px;margin-bottom:16px;}
+  .audio-card-title{font-weight:700;color:var(--teal);margin-bottom:6px;font-size:.95rem;}
+  .audio-steps{font-size:.85rem;color:var(--gray-600);margin-bottom:14px;line-height:1.8;}
+  .audio-btn{display:inline-flex;align-items:center;gap:7px;background:var(--teal);color:#fff;border:none;padding:9px 20px;border-radius:30px;cursor:pointer;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .2s;}
+  .audio-btn:hover{background:var(--teal-mid);}
+  .script-toggle-btn{margin-top:14px;display:inline-block;background:none;border:1px solid var(--teal);color:var(--teal);padding:5px 14px;border-radius:20px;font-size:.8rem;cursor:pointer;font-weight:600;}
+  .script-box{display:none;margin-top:10px;background:var(--teal-light);border-radius:var(--radius-sm);padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:.83rem;color:var(--teal);line-height:1.7;}
+  .production-task{background:#fff;border-radius:var(--radius);border:2px dashed var(--green);padding:20px 24px;margin-bottom:16px;}
+  .production-task .task-label{font-weight:700;color:var(--green);font-size:.88rem;margin-bottom:6px;}
+  .production-task .task-instruction{font-size:.88rem;color:var(--gray-700);margin-bottom:10px;line-height:1.5;}
+  .production-task textarea{width:100%;min-height:90px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:.9rem;resize:vertical;color:var(--gray-800);}
+  .production-task textarea:focus{outline:none;border-color:var(--green);}
+  .example-model{display:none;margin-top:10px;background:var(--green-light);border-radius:var(--radius-sm);padding:12px 16px;font-size:.85rem;color:var(--green);font-family:'JetBrains Mono',monospace;line-height:1.5;}
+  .btn-show-model{margin-top:8px;background:none;border:1px solid var(--green);color:var(--green);padding:5px 14px;border-radius:20px;font-size:.8rem;cursor:pointer;font-weight:600;}
+  .section-title{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--gray-800);margin:28px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--gray-200);}
+  .alert-box{background:#fffbeb;border:1px solid #fbbf24;border-radius:var(--radius-sm);padding:12px 16px;font-size:.88rem;color:#92400e;margin-bottom:14px;}
+  .numbers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:16px;}
+  .num-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:10px 14px;text-align:center;}
+  .num-digit{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--navy);}
+  .num-word{font-size:.8rem;color:var(--gray-600);margin-top:2px;}
+  .days-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+  .day-pill{background:var(--navy-light);color:var(--navy);font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;padding:6px 14px;border-radius:99px;}
+  @media(max-width:600px){
+    #main-header .logo span{display:none;}.hbtn span.hbtn-label{display:none;}.save-indicator{display:none;}.hbtn{padding:5px 9px;}
+    .day-hero{padding:20px 18px;}.day-hero h1{font-size:1.4rem;}
+    .card{padding:16px 14px;}
+    .phrase-row{flex-direction:column;align-items:flex-start;gap:4px;}.phrase-pt{text-align:left;}
+    .ex-item{flex-wrap:wrap;gap:6px;}
+    .ex-item input[type="text"]{min-width:100%;font-size:1rem;padding:8px 12px;}
+    .btn-check{min-height:40px;padding:8px 14px;}
+    .btn-check-all{width:100%;justify-content:center;min-height:44px;}
+    .flashcard{min-height:260px;padding:22px 16px;}.fc-word{font-size:1.35rem;}
+    .fc-arrow{width:40px;height:40px;}
+    .abtn{padding:8px 14px;min-height:40px;}.spd-btn{min-height:36px;padding:6px 12px;}.vbtn{min-height:36px;padding:6px 12px;}
+    .production-task textarea{font-size:1rem;min-height:100px;}
+    .audio-btn{width:100%;justify-content:center;min-height:44px;}
+  }
+</style>
+</head>
+<body>
+<header id="main-header">
+  <div class="logo">Talk It Easy <span>· English for Agribusiness</span></div>
+  <div class="week-badge">W3 · This is my friend</div>
+  <div class="header-actions">
+    <span class="save-indicator" id="save-indicator">—</span>
+    <button class="hbtn" onclick="saveProgress()" title="Salvar progresso">💾 <span class="hbtn-label">Salvar</span></button>
+    <button class="hbtn hbtn-danger" onclick="clearProgress()" title="Limpar tudo">🗑 <span class="hbtn-label">Limpar</span></button>
+  </div>
+</header>
+
+<nav id="day-tabs">
+  <button class="tab-btn active" onclick="showDay(1)"><span class="day-num">DAY 1</span>He is / She is</button>
+  <button class="tab-btn" onclick="showDay(2)"><span class="day-num">DAY 2</span>Negativa & Perguntas</button>
+  <button class="tab-btn" onclick="showDay(3)"><span class="day-num">DAY 3</span>Q&A + Números</button>
+  <button class="tab-btn" onclick="showDay(4)"><span class="day-num">DAY 4</span>Listening</button>
+  <button class="tab-btn" onclick="showDay(5)"><span class="day-num">DAY 5</span>Produção Livre</button>
+</nav>
+
+<!-- ══ DAY 1 ══ -->
+<div class="day-panel active" id="day-1">
+  <div class="day-hero">
+    <div class="day-label">Day 1 · W3 This is my friend</div>
+    <h1>He is / She is / They are</h1>
+    <p>Aprenda a apresentar colegas e falar sobre qualquer pessoa usando He is, She is e They are no contexto profissional do agro.</p>
+    <a class="video-btn" href="https://youtu.be/P4r8j2iFOW4" target="_blank">▶ Assistir Vídeo — Dia 1</a>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">🎯 Learning Outcomes — Day 1</div>
+    <ul class="outcomes-list">
+      <li>Apresentar colegas usando <strong>He is / She is / They are</strong> com confiança</li>
+      <li>Falar sobre onde pessoas estão usando To Be + localização</li>
+      <li>Nomear profissões e departamentos do agronegócio</li>
+      <li>Usar contrações: He's / She's / They're em contextos naturais</li>
+    </ul>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">📚 Vocabulário do Dia — 10 palavras & expressões</div>
+    <p style="font-size:.82rem;color:var(--gray-600);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+    <div class="fc-wrapper" id="fc-d1">
+      <div class="voice-row"><span class="voice-label">Voz:</span><span class="voices-loading" id="v-loading-d1">Carregando vozes...</span><div id="v-btns-d1" style="display:flex;gap:6px;flex-wrap:wrap;"></div></div>
+      <div class="fc-dots" id="fc-dots-d1"></div>
+      <div class="fc-nav-row"><span class="fc-counter" id="fc-counter-d1">1 de 10</span><div class="fc-arrows"><button class="fc-arrow" onclick="fcNav('d1',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="fc-arrow" onclick="fcNav('d1',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>
+      <div class="flashcard" onclick="handleCardClick(event,'d1')">
+        <div class="fc-front" id="fc-front-d1"><div class="fc-side-label">Toque para ver a tradução</div><div class="fc-step-label" id="fc-step-d1"></div><div class="fc-word" id="fc-word-d1"></div><div class="fc-ipa" id="fc-ipa-d1"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-word-d1" onclick="sayWord('d1')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button><button class="spd-btn active" id="spd1-d1" onclick="setSpd('d1',1,event)">1×</button><button class="spd-btn" id="spd07-d1" onclick="setSpd('d1',0.7,event)">0.7×</button></div>
+          <div class="fc-hint">Toque para ver tradução e uso real</div></div>
+        <div class="fc-back" id="fc-back-d1"><div class="fc-side-label">Tradução e uso real</div><div class="fc-translation" id="fc-trans-d1"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-ex-d1" onclick="sayEx('d1')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button><button class="spd-btn active" id="exspd1-d1" onclick="setExSpd('d1',1,event)">1×</button><button class="spd-btn" id="exspd07-d1" onclick="setExSpd('d1',0.7,event)">0.7×</button></div>
+          <div class="fc-example" id="fc-ex-d1"></div><div class="fc-example-pt" id="fc-ex-pt-d1"></div><div class="fc-why" id="fc-why-d1"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">📐 O Padrão — He is / She is / They are</div>
+  <div class="card card-navy">
+    <div class="card-title">📊 Estrutura Visual</div>
+    <table class="pattern-table">
+      <tr><th>Estrutura</th><th>Exemplo</th><th>Contração</th></tr>
+      <tr><td class="mono">He is + nome</td><td>He is Carlos.</td><td>He's Carlos.</td></tr>
+      <tr><td class="mono">She is + profissão</td><td>She is the sales coordinator.</td><td>She's the coordinator.</td></tr>
+      <tr><td class="mono">They are + cargo</td><td>They are our top team.</td><td>They're our top team.</td></tr>
+      <tr><td class="mono">He is from + local</td><td>He is from Brasília.</td><td>He's from Brasília.</td></tr>
+      <tr><td class="mono">She is + estado</td><td>She is in a meeting.</td><td>She's in a meeting.</td></tr>
+      <tr><td class="mono">They are + sentimento</td><td>They are excited to meet you.</td><td>They're excited.</td></tr>
+    </table>
+    <p style="margin-top:12px;font-size:.85rem;color:var(--navy-mid)">🔑 He is = homem / She is = mulher / They are = 2 ou mais pessoas. Não muda o verbo!</p>
+  </div>
+
+  <div class="section-title">💬 At the Office — Conversas</div>
+  <div class="card card-navy">
+    <div class="card-title">📌 The Situation — A new client visits your company</div>
+    <div class="dialogue-box">
+      <div class="dialogue-label">Conversation 1 — He is</div>
+      <div class="dialogue-line"><span class="dialogue-speaker">Client:</span><span class="dialogue-text">"Hello! Who is he?"</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">You:</span><span class="dialogue-text">"He is Carlos. He is the director. He is from Brasília."</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">Client:</span><span class="dialogue-text">"Is he available today?"</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">You:</span><span class="dialogue-text">"Yes, he is! He is in the office right now. He is excited to meet you!"</span></div>
+    </div>
+    <div class="dialogue-box">
+      <div class="dialogue-label">Conversation 2 — She is</div>
+      <div class="dialogue-line"><span class="dialogue-speaker">Client:</span><span class="dialogue-text">"And who is she?"</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">You:</span><span class="dialogue-text">"She is Ana. She is the sales coordinator. She is from São Paulo."</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">Client:</span><span class="dialogue-text">"Is she available now?"</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">You:</span><span class="dialogue-text">"No, she isn't. She is in a meeting. She is very experienced!"</span></div>
+    </div>
+    <div class="dialogue-box">
+      <div class="dialogue-label">Conversation 3 — They are</div>
+      <div class="dialogue-line"><span class="dialogue-speaker">Client:</span><span class="dialogue-text">"And who are they?"</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">You:</span><span class="dialogue-text">"They are Carlos and Ana. They are our top team."</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">Client:</span><span class="dialogue-text">"Are they available for a meeting?"</span></div>
+      <div class="dialogue-line"><span class="dialogue-speaker">You:</span><span class="dialogue-text">"Yes, they are! They are excited to meet you."</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">✏️ Exercícios — Dia 1</div>
+
+  <div class="card card-navy">
+    <div class="card-title">Exercise 1 — Complete com HE IS / SHE IS / THEY ARE</div>
+    <div class="ex-instruction">Complete com o pronome correto baseado na dica entre parênteses.</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><input type="text" id="d1e1_1" placeholder="Ex: escreva aqui..." style="max-width:160px"><span class="ex-text">the director. (Carlos)</span><button class="btn-check" onclick="checkOne('d1e1_1','he is')">✓</button><span class="feedback" id="fb-d1e1_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><input type="text" id="d1e1_2" placeholder="Ex: escreva aqui..." style="max-width:160px"><span class="ex-text">on vacation. (Ana)</span><button class="btn-check" onclick="checkOne('d1e1_2','she is')">✓</button><span class="feedback" id="fb-d1e1_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><input type="text" id="d1e1_3" placeholder="Ex: escreva aqui..." style="max-width:160px"><span class="ex-text">engineers. (Pedro and John)</span><button class="btn-check" onclick="checkOne('d1e1_3','they are')">✓</button><span class="feedback" id="fb-d1e1_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><input type="text" id="d1e1_4" placeholder="Ex: escreva aqui..." style="max-width:160px"><span class="ex-text">from Mexico. (Laura)</span><button class="btn-check" onclick="checkOne('d1e1_4','she is')">✓</button><span class="feedback" id="fb-d1e1_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><input type="text" id="d1e1_5" placeholder="Ex: escreva aqui..." style="max-width:160px"><span class="ex-text">in a meeting. (the team)</span><button class="btn-check" onclick="checkOne('d1e1_5','they are')">✓</button><span class="feedback" id="fb-d1e1_5"></span></div>
+      <div class="ex-item"><span class="ex-num">6.</span><input type="text" id="d1e1_6" placeholder="Ex: escreva aqui..." style="max-width:160px"><span class="ex-text">available now. (Carlos)</span><button class="btn-check" onclick="checkOne('d1e1_6','he is')">✓</button><span class="feedback" id="fb-d1e1_6"></span></div>
+      <div class="ex-item"><span class="ex-num">7.</span><input type="text" id="d1e1_7" placeholder="Ex: escreva aqui..." style="max-width:160px"><span class="ex-text">excited about the project. (Ana and Pedro)</span><button class="btn-check" onclick="checkOne('d1e1_7','they are')">✓</button><span class="feedback" id="fb-d1e1_7"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d1-ex1')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d1-ex1"></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">Drill 1 — I AM → HE IS / SHE IS</div>
+    <div class="ex-instruction">Transforme para He is ou She is. Fale em voz alta!</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">I am a manager. →</span><input type="text" id="d1dr_1" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_1','he is a manager')">✓</button><span class="feedback" id="fb-d1dr_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">I am from Brazil. →</span><input type="text" id="d1dr_2" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_2','she is from brazil')">✓</button><span class="feedback" id="fb-d1dr_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">I am a director. →</span><input type="text" id="d1dr_3" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_3','he is a director')">✓</button><span class="feedback" id="fb-d1dr_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">I am an analyst. →</span><input type="text" id="d1dr_4" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_4','she is an analyst')">✓</button><span class="feedback" id="fb-d1dr_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">I am at work. →</span><input type="text" id="d1dr_5" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_5','he is at work')">✓</button><span class="feedback" id="fb-d1dr_5"></span></div>
+      <div class="ex-item"><span class="ex-num">6.</span><span class="ex-text">I am busy. →</span><input type="text" id="d1dr_6" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_6','she is busy')">✓</button><span class="feedback" id="fb-d1dr_6"></span></div>
+      <div class="ex-item"><span class="ex-num">7.</span><span class="ex-text">I am on vacation. →</span><input type="text" id="d1dr_7" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_7','he is on vacation')">✓</button><span class="feedback" id="fb-d1dr_7"></span></div>
+      <div class="ex-item"><span class="ex-num">8.</span><span class="ex-text">I am from Mexico. →</span><input type="text" id="d1dr_8" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_8','she is from mexico')">✓</button><span class="feedback" id="fb-d1dr_8"></span></div>
+      <div class="ex-item"><span class="ex-num">9.</span><span class="ex-text">I am a consultant. →</span><input type="text" id="d1dr_9" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_9','he is a consultant')">✓</button><span class="feedback" id="fb-d1dr_9"></span></div>
+      <div class="ex-item"><span class="ex-num">10.</span><span class="ex-text">I am excited. →</span><input type="text" id="d1dr_10" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d1dr_10','she is excited')">✓</button><span class="feedback" id="fb-d1dr_10"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d1-dr')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d1-dr"></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">🌐 Translation Drill — Dia 1</div>
+    <div class="ex-instruction">Traduza para o inglês. Exemplo: "Ele é o diretor de operações." → He is the operations director.</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">Ela é a coordenadora de vendas.</span><input type="text" id="d1tr_1" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d1tr_1','she is the sales coordinator')">✓</button><span class="feedback" id="fb-d1tr_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">Eles são da equipe técnica.</span><input type="text" id="d1tr_2" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d1tr_2','they are from the technical team')">✓</button><span class="feedback" id="fb-d1tr_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">Ele é de Brasília.</span><input type="text" id="d1tr_3" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d1tr_3','he is from brasilia')">✓</button><span class="feedback" id="fb-d1tr_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">Ela está em uma reunião agora.</span><input type="text" id="d1tr_4" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d1tr_4','she is in a meeting now')">✓</button><span class="feedback" id="fb-d1tr_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">Eles estão animados para conhecer você.</span><input type="text" id="d1tr_5" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d1tr_5','they are excited to meet you')">✓</button><span class="feedback" id="fb-d1tr_5"></span></div>
+      <div class="ex-item"><span class="ex-num">6.</span><span class="ex-text">Ele é o nosso novo analista.</span><input type="text" id="d1tr_6" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d1tr_6','he is our new analyst')">✓</button><span class="feedback" id="fb-d1tr_6"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d1-tr')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d1-tr"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DAY 2 ══ -->
+<div class="day-panel" id="day-2">
+  <div class="day-hero">
+    <div class="day-label">Day 2 · W3 This is my friend</div>
+    <h1>Negativa & Perguntas — He isn't / Is he?</h1>
+    <p>Aprenda a negar e perguntar sobre qualquer pessoa. He isn't, She isn't, They aren't + Is he? / Is she? / Are they?</p>
+    <a class="video-btn" href="https://youtu.be/5vi2ezzRagY" target="_blank">▶ Assistir Vídeo — Dia 2</a>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">🎯 Learning Outcomes — Day 2</div>
+    <ul class="outcomes-list">
+      <li>Formar a negativa: <strong>He isn't / She isn't / They aren't</strong></li>
+      <li>Fazer perguntas: <strong>Is he? / Is she? / Are they?</strong></li>
+      <li>Responder com short answers: Yes, he is. / No, she isn't.</li>
+      <li>Usar localizações e sentimentos com He is / She is</li>
+    </ul>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">📚 Vocabulário do Dia — 10 palavras & expressões</div>
+    <p style="font-size:.82rem;color:var(--gray-600);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+    <div class="fc-wrapper" id="fc-d2">
+      <div class="voice-row"><span class="voice-label">Voz:</span><span class="voices-loading" id="v-loading-d2">Carregando vozes...</span><div id="v-btns-d2" style="display:flex;gap:6px;flex-wrap:wrap;"></div></div>
+      <div class="fc-dots" id="fc-dots-d2"></div>
+      <div class="fc-nav-row"><span class="fc-counter" id="fc-counter-d2">1 de 10</span><div class="fc-arrows"><button class="fc-arrow" onclick="fcNav('d2',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="fc-arrow" onclick="fcNav('d2',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>
+      <div class="flashcard" onclick="handleCardClick(event,'d2')">
+        <div class="fc-front" id="fc-front-d2"><div class="fc-side-label">Toque para ver a tradução</div><div class="fc-step-label" id="fc-step-d2"></div><div class="fc-word" id="fc-word-d2"></div><div class="fc-ipa" id="fc-ipa-d2"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-word-d2" onclick="sayWord('d2')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button><button class="spd-btn active" id="spd1-d2" onclick="setSpd('d2',1,event)">1×</button><button class="spd-btn" id="spd07-d2" onclick="setSpd('d2',0.7,event)">0.7×</button></div>
+          <div class="fc-hint">Toque para ver tradução e uso real</div></div>
+        <div class="fc-back" id="fc-back-d2"><div class="fc-side-label">Tradução e uso real</div><div class="fc-translation" id="fc-trans-d2"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-ex-d2" onclick="sayEx('d2')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button><button class="spd-btn active" id="exspd1-d2" onclick="setExSpd('d2',1,event)">1×</button><button class="spd-btn" id="exspd07-d2" onclick="setExSpd('d2',0.7,event)">0.7×</button></div>
+          <div class="fc-example" id="fc-ex-d2"></div><div class="fc-example-pt" id="fc-ex-pt-d2"></div><div class="fc-why" id="fc-why-d2"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-amber">
+    <div class="card-title">⚠️ As 3 Regras do Dia</div>
+    <div class="contrast-grid">
+      <div class="contrast-col">
+        <div class="col-label" style="color:var(--wrong)">❌ Negativa</div>
+        <ul><li>He is not = <strong>He isn't</strong></li><li>She is not = <strong>She isn't</strong></li><li>They are not = <strong>They aren't</strong></li></ul>
+      </div>
+      <div class="contrast-col">
+        <div class="col-label" style="color:var(--navy)">❓ Pergunta</div>
+        <ul><li><strong>Is he</strong> available?</li><li><strong>Is she</strong> in a meeting?</li><li><strong>Are they</strong> engineers?</li></ul>
+      </div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="col-label" style="color:var(--green);margin-bottom:8px">✅ Short Answers</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.83rem;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <span>Is he busy? → <strong>Yes, he is.</strong></span><span>Is she here? → <strong>No, she isn't.</strong></span>
+        <span>Are they ready? → <strong>Yes, they are.</strong></span><span>Is he free? → <strong>No, he isn't.</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">✏️ Exercícios — Dia 2</div>
+
+  <div class="card card-navy">
+    <div class="card-title">Drill 2 — Affirmative → Negative</div>
+    <div class="ex-instruction">Transforme para a forma negativa. (11–20)</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">11.</span><span class="ex-text">He is available. →</span><input type="text" id="d2e1_1" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_1','he isnt available')">✓</button><span class="feedback" id="fb-d2e1_1"></span></div>
+      <div class="ex-item"><span class="ex-num">12.</span><span class="ex-text">She is on vacation. →</span><input type="text" id="d2e1_2" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_2','she isnt on vacation')">✓</button><span class="feedback" id="fb-d2e1_2"></span></div>
+      <div class="ex-item"><span class="ex-num">13.</span><span class="ex-text">He is in a meeting. →</span><input type="text" id="d2e1_3" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_3','he isnt in a meeting')">✓</button><span class="feedback" id="fb-d2e1_3"></span></div>
+      <div class="ex-item"><span class="ex-num">14.</span><span class="ex-text">She is from Argentina. →</span><input type="text" id="d2e1_4" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_4','she isnt from argentina')">✓</button><span class="feedback" id="fb-d2e1_4"></span></div>
+      <div class="ex-item"><span class="ex-num">15.</span><span class="ex-text">They are busy. →</span><input type="text" id="d2e1_5" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_5','they arent busy')">✓</button><span class="feedback" id="fb-d2e1_5"></span></div>
+      <div class="ex-item"><span class="ex-num">16.</span><span class="ex-text">He is the director. →</span><input type="text" id="d2e1_6" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_6','he isnt the director')">✓</button><span class="feedback" id="fb-d2e1_6"></span></div>
+      <div class="ex-item"><span class="ex-num">17.</span><span class="ex-text">She is at the conference. →</span><input type="text" id="d2e1_7" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_7','she isnt at the conference')">✓</button><span class="feedback" id="fb-d2e1_7"></span></div>
+      <div class="ex-item"><span class="ex-num">18.</span><span class="ex-text">They are from Brazil. →</span><input type="text" id="d2e1_8" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_8','they arent from brazil')">✓</button><span class="feedback" id="fb-d2e1_8"></span></div>
+      <div class="ex-item"><span class="ex-num">19.</span><span class="ex-text">He is a field supervisor. →</span><input type="text" id="d2e1_9" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_9','he isnt a field supervisor')">✓</button><span class="feedback" id="fb-d2e1_9"></span></div>
+      <div class="ex-item"><span class="ex-num">20.</span><span class="ex-text">She is the CEO. →</span><input type="text" id="d2e1_10" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e1_10','she isnt the ceo')">✓</button><span class="feedback" id="fb-d2e1_10"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d2-ex1')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d2-ex1"></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">Drill 3 — Affirmative → Question</div>
+    <div class="ex-instruction">Transforme para pergunta. (21–30)</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">21.</span><span class="ex-text">He is the manager. →</span><input type="text" id="d2e2_1" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_1','is he the manager')">✓</button><span class="feedback" id="fb-d2e2_1"></span></div>
+      <div class="ex-item"><span class="ex-num">22.</span><span class="ex-text">She is from Brazil. →</span><input type="text" id="d2e2_2" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_2','is she from brazil')">✓</button><span class="feedback" id="fb-d2e2_2"></span></div>
+      <div class="ex-item"><span class="ex-num">23.</span><span class="ex-text">They are engineers. →</span><input type="text" id="d2e2_3" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_3','are they engineers')">✓</button><span class="feedback" id="fb-d2e2_3"></span></div>
+      <div class="ex-item"><span class="ex-num">24.</span><span class="ex-text">He is available. →</span><input type="text" id="d2e2_4" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_4','is he available')">✓</button><span class="feedback" id="fb-d2e2_4"></span></div>
+      <div class="ex-item"><span class="ex-num">25.</span><span class="ex-text">She is on vacation. →</span><input type="text" id="d2e2_5" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_5','is she on vacation')">✓</button><span class="feedback" id="fb-d2e2_5"></span></div>
+      <div class="ex-item"><span class="ex-num">26.</span><span class="ex-text">He is at the conference. →</span><input type="text" id="d2e2_6" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_6','is he at the conference')">✓</button><span class="feedback" id="fb-d2e2_6"></span></div>
+      <div class="ex-item"><span class="ex-num">27.</span><span class="ex-text">She is in the sales team. →</span><input type="text" id="d2e2_7" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_7','is she in the sales team')">✓</button><span class="feedback" id="fb-d2e2_7"></span></div>
+      <div class="ex-item"><span class="ex-num">28.</span><span class="ex-text">They are busy. →</span><input type="text" id="d2e2_8" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_8','are they busy')">✓</button><span class="feedback" id="fb-d2e2_8"></span></div>
+      <div class="ex-item"><span class="ex-num">29.</span><span class="ex-text">He is on a business trip. →</span><input type="text" id="d2e2_9" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_9','is he on a business trip')">✓</button><span class="feedback" id="fb-d2e2_9"></span></div>
+      <div class="ex-item"><span class="ex-num">30.</span><span class="ex-text">She is the new agronomist. →</span><input type="text" id="d2e2_10" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d2e2_10','is she the new agronomist')">✓</button><span class="feedback" id="fb-d2e2_10"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d2-ex2')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d2-ex2"></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">🌐 Translation Drill — Dia 2</div>
+    <div class="ex-instruction">Traduza para o inglês. Use a forma negativa ou pergunta conforme indicado. Exemplo: "Ele não está disponível." → He isn't available.</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">Ela não é de São Paulo.</span><input type="text" id="d2tr_1" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d2tr_1','she isnt from sao paulo')">✓</button><span class="feedback" id="fb-d2tr_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">Eles não estão ocupados hoje.</span><input type="text" id="d2tr_2" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d2tr_2','they arent busy today')">✓</button><span class="feedback" id="fb-d2tr_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">Ela está disponível? (pergunta)</span><input type="text" id="d2tr_3" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d2tr_3','is she available')">✓</button><span class="feedback" id="fb-d2tr_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">Ele é o novo agrônomo? (pergunta)</span><input type="text" id="d2tr_4" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d2tr_4','is he the new agronomist')">✓</button><span class="feedback" id="fb-d2tr_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">Ele não está na conferência.</span><input type="text" id="d2tr_5" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d2tr_5','he isnt at the conference')">✓</button><span class="feedback" id="fb-d2tr_5"></span></div>
+      <div class="ex-item"><span class="ex-num">6.</span><span class="ex-text">Eles são engenheiros? (pergunta)</span><input type="text" id="d2tr_6" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d2tr_6','are they engineers')">✓</button><span class="feedback" id="fb-d2tr_6"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d2-tr')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d2-tr"></div>
+    </div>
+  </div>
+</div>
+<!-- ══ DAY 3 ══ -->
+<div class="day-panel" id="day-3">
+  <div class="day-hero">
+    <div class="day-label">Day 3 · W3 This is my friend</div>
+    <h1>Q&A + Números 10–30 + Dias da Semana</h1>
+    <p>Perguntas e respostas completas + números para ramal, sala e andar + dias da semana em contexto profissional.</p>
+    <a class="video-btn" href="https://youtu.be/LQd_Iqqsres" target="_blank">▶ Assistir Vídeo — Dia 3</a>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">🎯 Learning Outcomes — Day 3</div>
+    <ul class="outcomes-list">
+      <li>Responder perguntas com YES + sentença completa ou NO + sentença completa</li>
+      <li>Criar perguntas WH: <strong>Who is / Where is / Are you / Is he / Is she</strong></li>
+      <li>Usar números 10–30 em contextos profissionais (ramal, sala, andar)</li>
+      <li>Usar dias da semana com <strong>on</strong> e horários com <strong>at</strong></li>
+    </ul>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">📚 Vocabulário do Dia — 10 palavras & expressões</div>
+    <p style="font-size:.82rem;color:var(--gray-600);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+    <div class="fc-wrapper" id="fc-d3">
+      <div class="voice-row"><span class="voice-label">Voz:</span><span class="voices-loading" id="v-loading-d3">Carregando vozes...</span><div id="v-btns-d3" style="display:flex;gap:6px;flex-wrap:wrap;"></div></div>
+      <div class="fc-dots" id="fc-dots-d3"></div>
+      <div class="fc-nav-row"><span class="fc-counter" id="fc-counter-d3">1 de 10</span><div class="fc-arrows"><button class="fc-arrow" onclick="fcNav('d3',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="fc-arrow" onclick="fcNav('d3',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>
+      <div class="flashcard" onclick="handleCardClick(event,'d3')">
+        <div class="fc-front" id="fc-front-d3"><div class="fc-side-label">Toque para ver a tradução</div><div class="fc-step-label" id="fc-step-d3"></div><div class="fc-word" id="fc-word-d3"></div><div class="fc-ipa" id="fc-ipa-d3"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-word-d3" onclick="sayWord('d3')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button><button class="spd-btn active" id="spd1-d3" onclick="setSpd('d3',1,event)">1×</button><button class="spd-btn" id="spd07-d3" onclick="setSpd('d3',0.7,event)">0.7×</button></div>
+          <div class="fc-hint">Toque para ver tradução e uso real</div></div>
+        <div class="fc-back" id="fc-back-d3"><div class="fc-side-label">Tradução e uso real</div><div class="fc-translation" id="fc-trans-d3"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-ex-d3" onclick="sayEx('d3')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button><button class="spd-btn active" id="exspd1-d3" onclick="setExSpd('d3',1,event)">1×</button><button class="spd-btn" id="exspd07-d3" onclick="setExSpd('d3',0.7,event)">0.7×</button></div>
+          <div class="fc-example" id="fc-ex-d3"></div><div class="fc-example-pt" id="fc-ex-pt-d3"></div><div class="fc-why" id="fc-why-d3"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">🔢 Números 10–30 + Dias da Semana</div>
+
+  <div class="card card-navy">
+    <div class="card-title">📊 Números 10–30 — Contextos do Agro</div>
+    <div class="numbers-grid">
+      <div class="num-card"><div class="num-digit">10</div><div class="num-word">ten</div></div>
+      <div class="num-card"><div class="num-digit">11</div><div class="num-word">eleven</div></div>
+      <div class="num-card"><div class="num-digit">12</div><div class="num-word">twelve</div></div>
+      <div class="num-card"><div class="num-digit">13</div><div class="num-word">thirteen</div></div>
+      <div class="num-card"><div class="num-digit">14</div><div class="num-word">fourteen</div></div>
+      <div class="num-card"><div class="num-digit">15</div><div class="num-word">fifteen</div></div>
+      <div class="num-card"><div class="num-digit">16</div><div class="num-word">sixteen</div></div>
+      <div class="num-card"><div class="num-digit">17</div><div class="num-word">seventeen</div></div>
+      <div class="num-card"><div class="num-digit">18</div><div class="num-word">eighteen</div></div>
+      <div class="num-card"><div class="num-digit">19</div><div class="num-word">nineteen</div></div>
+      <div class="num-card"><div class="num-digit">20</div><div class="num-word">twenty</div></div>
+      <div class="num-card"><div class="num-digit">21</div><div class="num-word">twenty-one</div></div>
+      <div class="num-card"><div class="num-digit">25</div><div class="num-word">twenty-five</div></div>
+      <div class="num-card"><div class="num-digit">30</div><div class="num-word">thirty</div></div>
+    </div>
+    <div class="alert-box">🔑 Use <strong>on</strong> com dias da semana: She is available <strong>on</strong> Thursday. Use <strong>at</strong> com horários: The meeting is <strong>at</strong> 10am.</div>
+    <div class="days-row">
+      <span class="day-pill">Monday</span><span class="day-pill">Tuesday</span><span class="day-pill">Wednesday</span><span class="day-pill">Thursday</span><span class="day-pill">Friday</span><span class="day-pill">Saturday</span><span class="day-pill">Sunday</span>
+    </div>
+    <div class="phrase-row"><span class="phrase-en">My extension is 22.</span><span class="phrase-pt">Meu ramal é 22.</span></div>
+    <div class="phrase-row"><span class="phrase-en">Her office is on floor 3. Room 17.</span><span class="phrase-pt">O escritório dela é no 3º andar. Sala 17.</span></div>
+    <div class="phrase-row"><span class="phrase-en">He is available on Thursday at 10am.</span><span class="phrase-pt">Ele está disponível na quinta às 10h.</span></div>
+    <div class="phrase-row"><span class="phrase-en">She is at a conference in room 15.</span><span class="phrase-pt">Ela está em uma conferência na sala 15.</span></div>
+  </div>
+
+  <div class="section-title">✏️ Exercícios — Dia 3</div>
+
+  <div class="card card-navy">
+    <div class="card-title">Drill 4 — Contrast Q&A</div>
+    <div class="ex-instruction">Responda YES ou NO com uma frase completa. Estas são perguntas abertas — não há resposta única certa. Clique em 💡 para ver um exemplo.</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">Is he from Brazil?</span><input type="text" id="d3e1_1" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOpen('d3e1_1','Yes, he is from Brazil. / No, he isn\'t from Brazil. He is from Argentina.')">💡</button><span class="feedback" id="fb-d3e1_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">Is she on vacation?</span><input type="text" id="d3e1_2" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOpen('d3e1_2','Yes, she is on vacation this week. / No, she isn\'t. She is in a meeting.')">💡</button><span class="feedback" id="fb-d3e1_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">Are they in a meeting?</span><input type="text" id="d3e1_3" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOpen('d3e1_3','Yes, they are in a meeting right now. / No, they aren\'t. They are available.')">💡</button><span class="feedback" id="fb-d3e1_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">Is he available?</span><input type="text" id="d3e1_4" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOpen('d3e1_4','Yes, he is. He is at his desk. / No, he isn\'t. He is on a business trip.')">💡</button><span class="feedback" id="fb-d3e1_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">Is she the director?</span><input type="text" id="d3e1_5" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOpen('d3e1_5','Yes, she is the director. / No, she isn\'t. She is the sales coordinator.')">💡</button><span class="feedback" id="fb-d3e1_5"></span></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">Drill 5 — Ask the Question</div>
+    <div class="ex-instruction">Leia a resposta e escreva a pergunta WH completa. Use: WHO IS / WHERE IS / ARE YOU / IS HE / IS SHE</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">A1.</span><span class="ex-text">The engineer is John.</span><input type="text" id="d3e2_1" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_1','who is the engineer')">✓</button><span class="feedback" id="fb-d3e2_1"></span></div>
+      <div class="ex-item"><span class="ex-num">A2.</span><span class="ex-text">The coordinator is Laura.</span><input type="text" id="d3e2_2" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_2','who is the coordinator')">✓</button><span class="feedback" id="fb-d3e2_2"></span></div>
+      <div class="ex-item"><span class="ex-num">B1.</span><span class="ex-text">Carlos is at work.</span><input type="text" id="d3e2_3" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_3','where is carlos')">✓</button><span class="feedback" id="fb-d3e2_3"></span></div>
+      <div class="ex-item"><span class="ex-num">B2.</span><span class="ex-text">The director is on vacation.</span><input type="text" id="d3e2_4" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_4','where is the director')">✓</button><span class="feedback" id="fb-d3e2_4"></span></div>
+      <div class="ex-item"><span class="ex-num">C1.</span><span class="ex-text">Yes, I am at work.</span><input type="text" id="d3e2_5" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_5','are you at work')">✓</button><span class="feedback" id="fb-d3e2_5"></span></div>
+      <div class="ex-item"><span class="ex-num">C2.</span><span class="ex-text">Yes, I am in a meeting.</span><input type="text" id="d3e2_6" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_6','are you in a meeting')">✓</button><span class="feedback" id="fb-d3e2_6"></span></div>
+      <div class="ex-item"><span class="ex-num">D1.</span><span class="ex-text">Yes, he is at the conference.</span><input type="text" id="d3e2_7" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_7','is he at the conference')">✓</button><span class="feedback" id="fb-d3e2_7"></span></div>
+      <div class="ex-item"><span class="ex-num">D2.</span><span class="ex-text">Yes, he is excited.</span><input type="text" id="d3e2_8" placeholder="Ex: escreva aqui..." style="min-width:200px"><button class="btn-check" onclick="checkOne('d3e2_8','is he excited')">✓</button><span class="feedback" id="fb-d3e2_8"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d3-ex2')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d3-ex2"></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">Number Practice — Escreva por extenso</div>
+    <div class="ex-instruction">Escreva os números em inglês.</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">17 →</span><input type="text" id="d3n_1" placeholder="Ex: escreva aqui..." style="min-width:140px"><button class="btn-check" onclick="checkOne('d3n_1','seventeen')">✓</button><span class="feedback" id="fb-d3n_1"></span></div>
+      <div class="ex-item"><span class="ex-num">13 →</span><input type="text" id="d3n_2" placeholder="Ex: escreva aqui..." style="min-width:140px"><button class="btn-check" onclick="checkOne('d3n_2','thirteen')">✓</button><span class="feedback" id="fb-d3n_2"></span></div>
+      <div class="ex-item"><span class="ex-num">20 →</span><input type="text" id="d3n_3" placeholder="Ex: escreva aqui..." style="min-width:140px"><button class="btn-check" onclick="checkOne('d3n_3','twenty')">✓</button><span class="feedback" id="fb-d3n_3"></span></div>
+      <div class="ex-item"><span class="ex-num">29 →</span><input type="text" id="d3n_4" placeholder="Ex: escreva aqui..." style="min-width:140px"><button class="btn-check" onclick="checkOne('d3n_4','twenty-nine')">✓</button><span class="feedback" id="fb-d3n_4"></span></div>
+      <div class="ex-item"><span class="ex-num">30 →</span><input type="text" id="d3n_5" placeholder="Ex: escreva aqui..." style="min-width:140px"><button class="btn-check" onclick="checkOne('d3n_5','thirty')">✓</button><span class="feedback" id="fb-d3n_5"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d3-num')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d3-num"></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">🌐 Translation Drill — Dia 3</div>
+    <div class="ex-instruction">Traduza para o inglês usando números, dias da semana e perguntas WH. Exemplo: "Onde está o Carlos?" → Where is Carlos?</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">Quem é o engenheiro?</span><input type="text" id="d3tr_1" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d3tr_1','who is the engineer')">✓</button><span class="feedback" id="fb-d3tr_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">Ela está disponível na quinta-feira.</span><input type="text" id="d3tr_2" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d3tr_2','she is available on thursday')">✓</button><span class="feedback" id="fb-d3tr_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">Meu ramal é 22.</span><input type="text" id="d3tr_3" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d3tr_3','my extension is twenty-two')">✓</button><span class="feedback" id="fb-d3tr_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">A reunião é na segunda às 10h.</span><input type="text" id="d3tr_4" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d3tr_4','the meeting is on monday at 10am')">✓</button><span class="feedback" id="fb-d3tr_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">Ela está em uma conferência na sala 15.</span><input type="text" id="d3tr_5" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d3tr_5','she is at a conference in room fifteen')">✓</button><span class="feedback" id="fb-d3tr_5"></span></div>
+      <div class="ex-item"><span class="ex-num">6.</span><span class="ex-text">O escritório dele é no 3º andar.</span><input type="text" id="d3tr_6" placeholder="Ex: escreva aqui..." style="min-width:240px"><button class="btn-check" onclick="checkOne('d3tr_6','his office is on floor three')">✓</button><span class="feedback" id="fb-d3tr_6"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d3-tr')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d3-tr"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DAY 4 — LISTENING ══ -->
+<div class="day-panel" id="day-4">
+  <div class="day-hero day-hero-teal">
+    <div class="day-label">Day 4 · W3 This is my friend</div>
+    <h1>🎧 Audio Practice</h1>
+    <p>Ouça 3 áudios profissionais do agronegócio. Estude o vocabulário antes de ouvir!</p>
+  </div>
+
+  <div class="card card-teal">
+    <div class="card-title">⚠️ Critical Rule — Antes de Começar</div>
+    <p style="font-size:.9rem;line-height:1.9"><strong>1ª escuta:</strong> Sem script. Só ouça — nomes, profissões, departamentos.<br><strong>2ª escuta:</strong> Responda as perguntas abaixo.<br><strong>3ª escuta:</strong> Shadow — repita exatamente ao mesmo tempo que o áudio.</p>
+  </div>
+
+  <div class="card card-teal">
+    <div class="card-title">📚 Vocabulário do Dia — 10 palavras dos áudios</div>
+    <p style="font-size:.82rem;color:var(--teal);opacity:.85;margin-bottom:14px">Estude estas palavras antes de ouvir — você vai reconhecê-las nos 3 áudios.</p>
+    <div class="fc-wrapper fc-teal" id="fc-d4">
+      <div class="voice-row"><span class="voice-label">Voz:</span><span class="voices-loading" id="v-loading-d4">Carregando vozes...</span><div id="v-btns-d4" style="display:flex;gap:6px;flex-wrap:wrap;"></div></div>
+      <div class="fc-dots" id="fc-dots-d4"></div>
+      <div class="fc-nav-row"><span class="fc-counter" id="fc-counter-d4">1 de 10</span><div class="fc-arrows"><button class="fc-arrow" onclick="fcNav('d4',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="fc-arrow" onclick="fcNav('d4',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>
+      <div class="flashcard" onclick="handleCardClick(event,'d4')">
+        <div class="fc-front" id="fc-front-d4"><div class="fc-side-label">Toque para ver a tradução</div><div class="fc-step-label" id="fc-step-d4"></div><div class="fc-word" id="fc-word-d4"></div><div class="fc-ipa" id="fc-ipa-d4"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-word-d4" onclick="sayWord('d4')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button><button class="spd-btn active" id="spd1-d4" onclick="setSpd('d4',1,event)">1×</button><button class="spd-btn" id="spd07-d4" onclick="setSpd('d4',0.7,event)">0.7×</button></div>
+          <div class="fc-hint">Toque para ver tradução e uso real</div></div>
+        <div class="fc-back" id="fc-back-d4"><div class="fc-side-label">Tradução e uso real</div><div class="fc-translation" id="fc-trans-d4"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-ex-d4" onclick="sayEx('d4')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button><button class="spd-btn active" id="exspd1-d4" onclick="setExSpd('d4',1,event)">1×</button><button class="spd-btn" id="exspd07-d4" onclick="setExSpd('d4',0.7,event)">0.7×</button></div>
+          <div class="fc-example" id="fc-ex-d4"></div><div class="fc-example-pt" id="fc-ex-pt-d4"></div><div class="fc-why" id="fc-why-d4"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIO 1 -->
+  <div class="audio-card">
+    <div class="audio-card-title">🎙️ Áudio 1 — Meet the Team</div>
+    <div class="audio-steps">1ª escuta: Sem script — foco em: nomes, profissões, departamentos &nbsp;·&nbsp; 2ª escuta: Complete &nbsp;·&nbsp; 3ª: Shadow</div>
+    <a class="audio-btn" href="https://drive.google.com/file/d/10xR8psDMl1elfsNenXrQxXI2Es6ycJqW/view?usp=sharing" target="_blank">🎧 Abrir Áudio 1</a>
+    <div style="margin-top:18px">
+      <div class="ex-instruction">Complete após a 2ª escuta:</div>
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">The director is ___</span><input type="text" id="a1q1" placeholder="Ex: escreva aqui..." style="max-width:160px"><button class="btn-check" onclick="checkOne('a1q1','carlos')">✓</button><span class="feedback" id="fb-a1q1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">Ana is in the ___ team.</span><input type="text" id="a1q2" placeholder="Ex: escreva aqui..." style="max-width:130px"><button class="btn-check" onclick="checkOne('a1q2','sales')">✓</button><span class="feedback" id="fb-a1q2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">Pedro is from ___</span><input type="text" id="a1q3" placeholder="Ex: escreva aqui..." style="max-width:150px"><button class="btn-check" onclick="checkOne('a1q3','goiania')">✓</button><span class="feedback" id="fb-a1q3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">Ana's profession is ___</span><input type="text" id="a1q4" placeholder="Ex: escreva aqui..." style="max-width:180px"><button class="btn-check" onclick="checkOne('a1q4','sales coordinator')">✓</button><span class="feedback" id="fb-a1q4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">Pedro's team is ___</span><input type="text" id="a1q5" placeholder="Ex: escreva aqui..." style="max-width:130px"><button class="btn-check" onclick="checkOne('a1q5','finance')">✓</button><span class="feedback" id="fb-a1q5"></span></div>
+    </div>
+    <button class="script-toggle-btn" onclick="toggleScript('s1')">📄 Ver / Ocultar Transcrição</button>
+    <div class="script-box" id="s1">"Hello! Welcome to our office. This is the team. This is Carlos. He is the director. He works in the operations team. He is from Brazil. He is from Brasília. This is Ana. She is the sales coordinator. She is in the sales team. She is from São Paulo. And this is Pedro. He is an analyst. He works in the finance team. He is from Goiânia. They are happy to meet you. Welcome!"</div>
+  </div>
+
+  <!-- AUDIO 2 -->
+  <div class="audio-card">
+    <div class="audio-card-title">🎙️ Áudio 2 — Where is Everyone?</div>
+    <div class="audio-steps">1ª escuta: Sem script — foco em: onde está cada pessoa? ela está disponível? &nbsp;·&nbsp; 2ª: Responda &nbsp;·&nbsp; 3ª: Shadow</div>
+    <a class="audio-btn" href="https://drive.google.com/file/d/1_-aA-4E-ov0zNmAY_A8GNu2erdAhItT_/view?usp=sharing" target="_blank">🎧 Abrir Áudio 2</a>
+    <div style="margin-top:18px">
+      <div class="ex-instruction">Responda após a 2ª escuta:</div>
+      <div class="ex-item"><span class="ex-num">6.</span><span class="ex-text">Where is Carlos?</span><input type="text" id="a2q1" placeholder="Ex: escreva aqui..." style="min-width:220px"><button class="btn-check" onclick="checkOne('a2q1','he is on a business trip')">✓</button><span class="feedback" id="fb-a2q1"></span></div>
+      <div class="ex-item"><span class="ex-num">7.</span><span class="ex-text">Is Ana available now?</span><input type="text" id="a2q2" placeholder="Ex: escreva aqui..." style="min-width:220px"><button class="btn-check" onclick="checkOne('a2q2','no she isnt she is in a meeting')">✓</button><span class="feedback" id="fb-a2q2"></span></div>
+      <div class="ex-item"><span class="ex-num">8.</span><span class="ex-text">Where is Pedro?</span><input type="text" id="a2q3" placeholder="Ex: escreva aqui..." style="min-width:220px"><button class="btn-check" onclick="checkOne('a2q3','he is at his desk')">✓</button><span class="feedback" id="fb-a2q3"></span></div>
+      <div class="ex-item"><span class="ex-num">9.</span><span class="ex-text">Is Pedro available?</span><input type="text" id="a2q4" placeholder="Ex: escreva aqui..." style="min-width:220px"><button class="btn-check" onclick="checkOne('a2q4','yes he is he is available right now')">✓</button><span class="feedback" id="fb-a2q4"></span></div>
+    </div>
+    <button class="script-toggle-btn" onclick="toggleScript('s2')">📄 Ver / Ocultar Transcrição</button>
+    <div class="script-box" id="s2">"Where is Carlos? Carlos is not here right now. He is on a business trip. He is unavailable today. Okay, and Pedro, where is Ana? Is she here? Ana is in the office, but she is in a meeting. She is busy now. She is available in the afternoon. Hmmmm... And where is Pedro? Pedro is here. He is at his desk. He is available right now."</div>
+  </div>
+
+  <!-- AUDIO 3 -->
+  <div class="audio-card">
+    <div class="audio-card-title">🎙️ Áudio 3 — The New Colleague</div>
+    <div class="audio-steps">1ª escuta: Sem script — quem é a nova colega? qual é a profissão? &nbsp;·&nbsp; 2ª: Complete &nbsp;·&nbsp; 3ª: Shadow</div>
+    <a class="audio-btn" href="https://drive.google.com/file/d/1Cs7Bi-x13e2255lNMyj4qEXZGt8k92iu/view?usp=sharing" target="_blank">🎧 Abrir Áudio 3</a>
+    <div style="margin-top:18px">
+      <div class="ex-instruction">Complete após a 2ª escuta:</div>
+      <div class="ex-item"><span class="ex-num">12.</span><span class="ex-text">Name:</span><input type="text" id="a3q1" placeholder="Ex: escreva aqui..." style="max-width:140px"><button class="btn-check" onclick="checkOne('a3q1','laura')">✓</button><span class="feedback" id="fb-a3q1"></span></div>
+      <div class="ex-item"><span class="ex-num">13.</span><span class="ex-text">Surname:</span><input type="text" id="a3q2" placeholder="Ex: escreva aqui..." style="max-width:140px"><button class="btn-check" onclick="checkOne('a3q2','campos')">✓</button><span class="feedback" id="fb-a3q2"></span></div>
+      <div class="ex-item"><span class="ex-num">14.</span><span class="ex-text">Profession:</span><input type="text" id="a3q3" placeholder="Ex: escreva aqui..." style="max-width:160px"><button class="btn-check" onclick="checkOne('a3q3','agronomist')">✓</button><span class="feedback" id="fb-a3q3"></span></div>
+      <div class="ex-item"><span class="ex-num">15.</span><span class="ex-text">Sector:</span><input type="text" id="a3q4" placeholder="Ex: escreva aqui..." style="max-width:180px"><button class="btn-check" onclick="checkOne('a3q4','agribusiness')">✓</button><span class="feedback" id="fb-a3q4"></span></div>
+      <div class="ex-item"><span class="ex-num">16.</span><span class="ex-text">She is from:</span><input type="text" id="a3q5" placeholder="Ex: escreva aqui..." style="max-width:160px"><button class="btn-check" onclick="checkOne('a3q5','cuiaba')">✓</button><span class="feedback" id="fb-a3q5"></span></div>
+      <div class="ex-item"><span class="ex-num">17.</span><span class="ex-text">Extension number:</span><input type="text" id="a3q6" placeholder="Ex: escreva aqui..." style="max-width:100px"><button class="btn-check" onclick="checkOne('a3q6','22')">✓</button><span class="feedback" id="fb-a3q6"></span></div>
+      <div class="ex-item"><span class="ex-num">18.</span><span class="ex-text">Floor:</span><input type="text" id="a3q7" placeholder="Ex: escreva aqui..." style="max-width:80px"><button class="btn-check" onclick="checkOne('a3q7','3')">✓</button><span class="feedback" id="fb-a3q7"></span></div>
+      <div class="ex-item"><span class="ex-num">19.</span><span class="ex-text">Room:</span><input type="text" id="a3q8" placeholder="Ex: escreva aqui..." style="max-width:80px"><button class="btn-check" onclick="checkOne('a3q8','17')">✓</button><span class="feedback" id="fb-a3q8"></span></div>
+    </div>
+    <button class="script-toggle-btn" onclick="toggleScript('s3')">📄 Ver / Ocultar Transcrição</button>
+    <div class="script-box" id="s3">"Good morning everyone! This is Laura Campos. She is an agronomist. She is from the agribusiness sector. She is from Mato Grosso. She is from Cuiabá. She is experienced. She is excited to be here. Laura, your extension is 22. Your office is on floor 3. Room 17. The meeting is on Thursday at 10 AM. Laura, the HR team is on floor 2. Welcome to the team, Laura!"</div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">🌐 Translation Drill — Dia 4</div>
+    <div class="ex-instruction">Traduza frases dos áudios de hoje para o inglês. Exemplo: "Bem-vindo à nossa equipe!" → Welcome to our team!</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">Ela é agrônoma do setor agro.</span><input type="text" id="d4tr_1" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d4tr_1','she is an agronomist from the agribusiness sector')">✓</button><span class="feedback" id="fb-d4tr_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">Ele está em viagem de negócios. Ele está indisponível hoje.</span><input type="text" id="d4tr_2" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d4tr_2','he is on a business trip he is unavailable today')">✓</button><span class="feedback" id="fb-d4tr_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">Ela está no escritório, mas está em uma reunião.</span><input type="text" id="d4tr_3" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d4tr_3','she is in the office but she is in a meeting')">✓</button><span class="feedback" id="fb-d4tr_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">Seu ramal é 22. Seu escritório é no 3º andar, sala 17.</span><input type="text" id="d4tr_4" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOpen('d4tr_4','Your extension is 22. Your office is on floor 3, room 17.')">💡</button><span class="feedback" id="fb-d4tr_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">Eles estão felizes em conhecer você.</span><input type="text" id="d4tr_5" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d4tr_5','they are happy to meet you')">✓</button><span class="feedback" id="fb-d4tr_5"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d4-tr')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d4-tr"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DAY 5 — PRODUÇÃO LIVRE ══ -->
+<div class="day-panel" id="day-5">
+  <div class="day-hero">
+    <div class="day-label">Day 5 · W3 This is my friend</div>
+    <h1>🌟 Produção Livre — Team Presentation</h1>
+    <p>Apresente colegas reais, descreva onde estão e como se sentem. Chegue pronto para a aula!</p>
+    <a class="video-btn" href="https://youtu.be/nIkb-DMWsuw" target="_blank">▶ Assistir Vídeo — Dia 5</a>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">🎯 Learning Outcomes — Day 5</div>
+    <ul class="outcomes-list">
+      <li>Apresentar 2 colegas reais usando He is / She is com profissão, localização e sentimento</li>
+      <li>Usar perguntas para entrevistar o professor na aula</li>
+      <li>Combinar tudo da semana em frases fluentes e naturais</li>
+      <li>Chegar pronto com vocabulário real do seu contexto profissional</li>
+    </ul>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title">📚 Vocabulário do Dia — 10 chunks para a aula</div>
+    <p style="font-size:.82rem;color:var(--gray-600);margin-bottom:14px">Ouça cada chunk. No verso, veja quando usar na conversa com o professor.</p>
+    <div class="fc-wrapper fc-navy" id="fc-d5">
+      <div class="voice-row"><span class="voice-label">Voz:</span><span class="voices-loading" id="v-loading-d5">Carregando vozes...</span><div id="v-btns-d5" style="display:flex;gap:6px;flex-wrap:wrap;"></div></div>
+      <div class="fc-dots" id="fc-dots-d5"></div>
+      <div class="fc-nav-row"><span class="fc-counter" id="fc-counter-d5">1 de 10</span><div class="fc-arrows"><button class="fc-arrow" onclick="fcNav('d5',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="fc-arrow" onclick="fcNav('d5',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>
+      <div class="flashcard" onclick="handleCardClick(event,'d5')">
+        <div class="fc-front" id="fc-front-d5"><div class="fc-side-label">Toque para ver quando usar</div><div class="fc-step-label" id="fc-step-d5"></div><div class="fc-word" id="fc-word-d5"></div><div class="fc-ipa" id="fc-ipa-d5"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-word-d5" onclick="sayWord('d5')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir chunk</button><button class="spd-btn active" id="spd1-d5" onclick="setSpd('d5',1,event)">1×</button><button class="spd-btn" id="spd07-d5" onclick="setSpd('d5',0.7,event)">0.7×</button></div>
+          <div class="fc-hint">Toque para ver como usar na aula</div></div>
+        <div class="fc-back" id="fc-back-d5"><div class="fc-side-label">Quando usar</div><div class="fc-translation" id="fc-trans-d5"></div>
+          <div class="audio-btns" onclick="event.stopPropagation()"><button class="abtn" id="abtn-ex-d5" onclick="sayEx('d5')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir exemplo</button><button class="spd-btn active" id="exspd1-d5" onclick="setExSpd('d5',1,event)">1×</button><button class="spd-btn" id="exspd07-d5" onclick="setExSpd('d5',0.7,event)">0.7×</button></div>
+          <div class="fc-example" id="fc-ex-d5"></div><div class="fc-example-pt" id="fc-ex-pt-d5"></div><div class="fc-why" id="fc-why-d5"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-box">💡 <strong>Dica:</strong> Use colegas reais do seu trabalho. Não existe resposta errada — o objetivo é falar com naturalidade. Leia em voz alta depois de escrever!</div>
+
+  <div class="section-title">🗣️ Prepare Your Answers — Team Presentation</div>
+  <div class="card card-green">
+    <div class="card-title">Exercise 1 — Answer About Your Team (Day 5)</div>
+    <div class="production-task">
+      <div class="task-label">1. Who is your manager? Where is your manager right now?</div>
+      <div class="task-instruction">Use: My manager is ___. He/She is a ___. He/She is at ___ right now.</div>
+      <textarea id="prod-q1" placeholder="My manager is ___. He/She is the ___. He/She is at ___ right now. He/She is ___..."></textarea>
+      <button class="btn-show-model" onclick="showModel('model-q1')">💡 Ver exemplo</button>
+      <div class="example-model" id="model-q1">My manager is Ricardo. He is the operations director. He is at the headquarters right now. He is very busy but he is available in the afternoon.</div>
+    </div>
+    <div class="production-task">
+      <div class="task-label">2. Who is on your team? What department are they in?</div>
+      <div class="task-instruction">Use: They are ___. They are from the ___ team. They are ___ today.</div>
+      <textarea id="prod-q2" placeholder="They are ___. They are from the ___ team. They are ___. He/She is ___ and he/she is from ___..."></textarea>
+      <button class="btn-show-model" onclick="showModel('model-q2')">💡 Ver exemplo</button>
+      <div class="example-model" id="model-q2">My team is the logistics team. We are five people. My colleague Ana is an analyst. She is from São Paulo. My colleague Pedro is a coordinator. He is from Goiânia. They are at the office today.</div>
+    </div>
+    <div class="production-task">
+      <div class="task-label">3. Introduce 2 real colleagues to James from Australia.</div>
+      <div class="task-instruction">Use: This is ___. He/She is a ___. He/She is from ___. He/She is ___ today.</div>
+      <textarea id="prod-q3" placeholder="This is ___. He/She is a ___. He/She is from the ___ team. He/She is from ___. He/She is ___ today..."></textarea>
+      <button class="btn-show-model" onclick="showModel('model-q3')">💡 Ver exemplo</button>
+      <div class="example-model" id="model-q3">This is Ana. She is our sales coordinator. She is from São Paulo. She is in a meeting right now, but she is available in the afternoon. She is very experienced! This is Pedro. He is an analyst in the finance team. He is from Goiânia. He is at his desk. He is ready for the meeting.</div>
+    </div>
+  </div>
+
+  <div class="section-title">📋 Preparation Notes — Para a aula</div>
+  <div class="card card-green">
+    <div class="card-title">Colleague 1 — Complete as informações</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Name:</span><input type="text" id="col1_name" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Profession:</span><input type="text" id="col1_prof" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Department:</span><input type="text" id="col1_dept" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Location right now:</span><input type="text" id="col1_loc" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">How is he/she feeling:</span><input type="text" id="col1_feel" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+    </div>
+    <div class="card-title" style="margin-top:16px">Colleague 2 — Complete as informações</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Name:</span><input type="text" id="col2_name" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Profession:</span><input type="text" id="col2_prof" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Department:</span><input type="text" id="col2_dept" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">Location right now:</span><input type="text" id="col2_loc" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+      <div class="ex-item"><span class="ex-text" style="min-width:160px">How is he/she feeling:</span><input type="text" id="col2_feel" placeholder="Ex: escreva aqui..." style="min-width:220px"></div>
+    </div>
+  </div>
+
+  <div class="section-title">❓ Task 2 — Interview the Teacher</div>
+  <div class="card card-navy">
+    <div class="card-title">Prepare 6 perguntas para fazer ao professor na aula.</div>
+    <div class="ex-instruction">Use: Who is / Where is / Is he/she / Are they / What is</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><input type="text" id="q-t1" placeholder="Ex: escreva aqui..." style="min-width:280px"></div>
+      <div class="ex-item"><span class="ex-num">2.</span><input type="text" id="q-t2" placeholder="Ex: escreva aqui..." style="min-width:280px"></div>
+      <div class="ex-item"><span class="ex-num">3.</span><input type="text" id="q-t3" placeholder="Ex: escreva aqui..." style="min-width:280px"></div>
+      <div class="ex-item"><span class="ex-num">4.</span><input type="text" id="q-t4" placeholder="Ex: escreva aqui..." style="min-width:280px"></div>
+      <div class="ex-item"><span class="ex-num">5.</span><input type="text" id="q-t5" placeholder="What is...?" style="min-width:280px"></div>
+      <div class="ex-item"><span class="ex-num">6.</span><input type="text" id="q-t6" placeholder="Ex: escreva aqui..." style="min-width:280px"></div>
+    </div>
+  </div>
+
+  <div class="card card-navy">
+    <div class="card-title">🌐 Translation Drill — Dia 5</div>
+    <div class="ex-instruction">Tradução final da semana. Exemplo: "Este é o meu colega. Ele é da equipe técnica." → This is my colleague. He is from the technical team.</div>
+    <div class="ex-block">
+      <div class="ex-item"><span class="ex-num">1.</span><span class="ex-text">Esta é a Laura. Ela é agrônoma e é de Cuiabá.</span><input type="text" id="d5tr_1" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d5tr_1','this is laura she is an agronomist and she is from cuiaba')">✓</button><span class="feedback" id="fb-d5tr_1"></span></div>
+      <div class="ex-item"><span class="ex-num">2.</span><span class="ex-text">Ele não está aqui agora. Ele está em viagem de negócios.</span><input type="text" id="d5tr_2" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d5tr_2','he isnt here now he is on a business trip')">✓</button><span class="feedback" id="fb-d5tr_2"></span></div>
+      <div class="ex-item"><span class="ex-num">3.</span><span class="ex-text">Eles são a nossa melhor equipe. Eles estão animados.</span><input type="text" id="d5tr_3" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d5tr_3','they are our best team they are excited')">✓</button><span class="feedback" id="fb-d5tr_3"></span></div>
+      <div class="ex-item"><span class="ex-num">4.</span><span class="ex-text">Ela está disponível na sexta às 15h. Seu ramal é 17.</span><input type="text" id="d5tr_4" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOpen('d5tr_4','She is available on Friday at 3pm. Her extension is 17.')">💡</button><span class="feedback" id="fb-d5tr_4"></span></div>
+      <div class="ex-item"><span class="ex-num">5.</span><span class="ex-text">Ele é o diretor de operações. Ele é muito experiente.</span><input type="text" id="d5tr_5" placeholder="Ex: escreva aqui..." style="min-width:260px"><button class="btn-check" onclick="checkOne('d5tr_5','he is the operations director he is very experienced')">✓</button><span class="feedback" id="fb-d5tr_5"></span></div>
+      <button class="btn-check-all" onclick="checkAll('d5-tr')">✓ Checar Tudo</button>
+      <div class="score-box" id="score-d5-tr"></div>
+    </div>
+  </div>
+
+  <div class="card card-green" style="text-align:center;padding:28px">
+    <div style="font-size:2rem;margin-bottom:10px">🎯</div>
+    <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--green);margin-bottom:8px">Você está pronto para a aula de conversação!</div>
+    <p style="font-size:.9rem;color:var(--gray-600)">Leia suas apresentações em voz alta 2x antes da aula. Fale com confiança — você preparou tudo!</p>
+  </div>
+</div>
+<script>
+const CARDS = {
+  d1:[
+    {step:'01 / 10',word:'director',ipa:'/daɪˈrektər/',trans:'diretor / diretora',ex:'He is the director. He is from Brasília.',pt:'Ele é o diretor. Ele é de Brasília.',why:'Cargo de liderança mais citado em apresentações para clientes internacionais do agro.'},
+    {step:'02 / 10',word:'sales coordinator',ipa:'/seɪlz kəʊˈɔːrdɪneɪtər/',trans:'coordenador/a de vendas',ex:'She is the sales coordinator. She is from São Paulo.',pt:'Ela é a coordenadora de vendas. Ela é de São Paulo.',why:'Título muito comum em distribuidoras e exportadoras de insumos agrícolas.'},
+    {step:'03 / 10',word:'on vacation',ipa:'/ɒn vəˈkeɪʃn/',trans:'de férias',ex:'She is on vacation this week. She is unavailable.',pt:'Ela está de férias esta semana. Ela está indisponível.',why:'Chunk completo — nunca diga in vacation. A preposição correta é ON vacation.'},
+    {step:'04 / 10',word:'in a meeting',ipa:'/ɪn ə ˈmiːtɪŋ/',trans:'em uma reunião',ex:'He is in a meeting right now. He is busy.',pt:'Ele está em uma reunião agora. Ele está ocupado.',why:'Status mais comum em conversas profissionais — use para explicar por que alguém não está disponível.'},
+    {step:'05 / 10',word:'experienced',ipa:'/ɪkˈspɪəriənst/',trans:'experiente',ex:'She is very experienced in the agribusiness sector.',pt:'Ela é muito experiente no setor de agronegócio.',why:'Adjetivo essencial para destacar colegas em apresentações para parceiros internacionais.'},
+    {step:'06 / 10',word:'excited',ipa:'/ɪkˈsaɪtɪd/',trans:'animado/a / empolgado/a',ex:'They are excited to meet you.',pt:'Eles estão animados para conhecer você.',why:'Sentimento positivo para fechar apresentações — muito mais natural que happy em contextos profissionais.'},
+    {step:'07 / 10',word:'available',ipa:'/əˈveɪləbl/',trans:'disponível',ex:'Is he available today? Yes, he is!',pt:'Ele está disponível hoje? Sim, está!',why:'Palavra-chave em agendamentos e confirmações — use com Is he/she available? para perguntar.'},
+    {step:'08 / 10',word:'on a business trip',ipa:'/ɒn ə ˈbɪznəs trɪp/',trans:'em viagem de negócios',ex:'Carlos is on a business trip. He is unavailable today.',pt:'Carlos está em viagem de negócios. Ele está indisponível hoje.',why:'Chunk completo — explica por que alguém não está no escritório em contextos corporativos.'},
+    {step:'09 / 10',word:'He\'s / She\'s / They\'re',ipa:'/hiːz / ʃiːz / ðeər/',trans:'Contrações — forma natural da fala',ex:"He's Carlos. She's Ana. They're our top team.",pt:'Ele é o Carlos. Ela é a Ana. Eles são nossa melhor equipe.',why:'Contrações são obrigatórias no inglês falado — soar formal demais pode parecer não nativo.'},
+    {step:'10 / 10',word:'top team',ipa:'/tɒp tiːm/',trans:'melhor equipe / equipe de elite',ex:'They are our top team. They are ready for you.',pt:'Eles são nossa melhor equipe. Eles estão prontos para você.',why:'Expressão usada para valorizar a equipe durante apresentações para clientes e investidores.'},
+  ],
+  d2:[
+    {step:'01 / 10',word:"He isn't",ipa:"/hiː ˈɪznt/",trans:'Ele não é / Ele não está',ex:"He isn't available today. He is on a business trip.",pt:'Ele não está disponível hoje. Ele está em viagem de negócios.',why:"isn't = is not — contração obrigatória. Nunca diga is not em inglês falado natural."},
+    {step:'02 / 10',word:"She isn't",ipa:"/ʃiː ˈɪznt/",trans:'Ela não é / Ela não está',ex:"She isn't at the office. She is at the farm.",pt:'Ela não está no escritório. Ela está na fazenda.',why:"Mesma estrutura de He isn't — apenas muda o pronome. O verbo não muda."},
+    {step:'03 / 10',word:"They aren't",ipa:"/ðeɪ ˈɑːrnt/",trans:'Eles/Elas não são / não estão',ex:"They aren't busy. They are available for the meeting.",pt:'Eles não estão ocupados. Eles estão disponíveis para a reunião.',why:"aren't = are not — use para negar informação sobre grupos de colegas."},
+    {step:'04 / 10',word:'Is he...?',ipa:'/ɪz hiː/',trans:'Ele é/está...? — pergunta sobre homem',ex:'Is he the new manager? Is he available?',pt:'Ele é o novo gerente? Ele está disponível?',why:'Inversão do To Be para perguntar — coloca o verbo antes do pronome. Simples!'},
+    {step:'05 / 10',word:'Is she...?',ipa:'/ɪz ʃiː/',trans:'Ela é/está...? — pergunta sobre mulher',ex:'Is she from Brazil? Is she in a meeting?',pt:'Ela é do Brasil? Ela está em uma reunião?',why:'Mesmo padrão de Is he — troca só o pronome. A estrutura é sempre Is + pronome.'},
+    {step:'06 / 10',word:'Are they...?',ipa:'/ɑːr ðeɪ/',trans:'Eles/Elas são/estão...?',ex:'Are they engineers? Are they available on Friday?',pt:'Eles são engenheiros? Eles estão disponíveis na sexta?',why:'Para grupos — Are (não Is) porque they é plural. Are they é a estrutura correta.'},
+    {step:'07 / 10',word:'Yes, he is.',ipa:'/jes hiː ɪz/',trans:'Sim, ele é/está.',ex:'Is he the director? Yes, he is!',pt:'Ele é o diretor? Sim, ele é!',why:'Short answer — nunca diga Yes, he is the director. A resposta curta é mais natural em inglês.'},
+    {step:'08 / 10',word:"No, she isn't.",ipa:"/nəʊ ʃiː ˈɪznt/",trans:'Não, ela não é/está.',ex:"Is she on vacation? No, she isn't.",pt:'Ela está de férias? Não, ela não está.',why:'Short answer negativa — a mais usada em briefings e check-ins de equipe no agro.'},
+    {step:'09 / 10',word:'on a business trip',ipa:'/ɒn ə ˈbɪznəs trɪp/',trans:'em viagem de negócios',ex:"He isn't here. He is on a business trip.",pt:'Ele não está aqui. Ele está em viagem de negócios.',why:'Aparece no Áudio 2 — explica por que Carlos não está disponível.'},
+    {step:'10 / 10',word:'unavailable',ipa:'/ˌʌnəˈveɪləbl/',trans:'indisponível',ex:'She is in a meeting. She is busy and unavailable.',pt:'Ela está em uma reunião. Ela está ocupada e indisponível.',why:'Oposto de available — essencial para comunicar quando colegas não podem atender.'},
+  ],
+  d3:[
+    {step:'01 / 10',word:'extension',ipa:'/ɪkˈstenʃn/',trans:'ramal (telefônico)',ex:'My extension is twenty-two. Call me!',pt:'Meu ramal é 22. Me liga!',why:'Número de ramal é a primeira informação pedida em apresentações profissionais de equipe.'},
+    {step:'02 / 10',word:'floor',ipa:'/flɔːr/',trans:'andar (de um edifício)',ex:'Her office is on floor three. Room seventeen.',pt:'O escritório dela é no 3º andar. Sala 17.',why:'Informação de localização física — use on floor + número, não in floor.'},
+    {step:'03 / 10',word:'room',ipa:'/ruːm/',trans:'sala',ex:'The meeting is in room fifteen.',pt:'A reunião é na sala 15.',why:'Use in room + número para indicar sala — sem artigo: in room 15, não in the room 15.'},
+    {step:'04 / 10',word:'She is available on Thursday.',ipa:'/ɒn ˈmʌndeɪ/',trans:'na segunda / na quinta — use ON com dias',ex:'She is available on Thursday at 10am.',pt:'Ela está disponível na quinta às 10h.',why:'ON + dia da semana é regra fixa — nunca use in Monday ou at Monday.'},
+    {step:'05 / 10',word:'The meeting is on Monday at ten am.',ipa:'/æt ten eɪ em/',trans:'às 10h / às 15h — use AT com horários',ex:'The meeting is on Monday at 10am.',pt:'A reunião é na segunda às 10h.',why:'AT + horário é regra fixa — on Monday AT 10am. Combinação essencial para agendamentos.'},
+    {step:'06 / 10',word:'Who is the engineer?',ipa:'/huː ɪz ðɪ ˌendʒɪˈnɪər/',trans:'Quem é o engenheiro? — pergunta de identidade',ex:'Who is the director? He is Carlos.',pt:'Quem é o diretor? Ele é o Carlos.',why:'WHO IS pergunta identidade — resposta com He is / She is + nome ou cargo.'},
+    {step:'07 / 10',word:'Where is Carlos?',ipa:'/weər ɪz ˈkɑːrləs/',trans:'Onde está o Carlos? — pergunta de localização',ex:'Where is Carlos? He is on a business trip.',pt:'Onde está o Carlos? Ele está em viagem de negócios.',why:'WHERE IS pergunta localização — resposta com He is / She is + at/in/on + local.'},
+    {step:'08 / 10',word:'Are you at work?',ipa:'/ɑːr juː æt wɜːrk/',trans:'Você está no trabalho? — pergunta com ARE YOU',ex:'Are you at the office? Yes, I am.',pt:'Você está no escritório? Sim, estou.',why:'ARE YOU pergunta status ou localização com you — resposta com Yes, I am. / No, I\'m not.'},
+    {step:'09 / 10',word:'Yes, he is.',ipa:'/jes hiː ɪz/',trans:'Sim, ele está. — short answer',ex:'Is he excited? Yes, he is!',pt:'Ele está animado? Sim, está!',why:'Short answer obrigatória em inglês — nunca repita a frase inteira na resposta.'},
+    {step:'10 / 10',word:'No, she isn\'t.',ipa:"/nəʊ ʃiː ˈɪznt/",trans:'Não, ela não está. — short answer negativa',ex:"Is she on vacation? No, she isn't. She is in a meeting.",pt:'Ela está de férias? Não. Ela está em uma reunião.',why:'Short answer negativa — sempre adicione uma frase extra explicando onde ela está.'},
+  ],
+  d4:[
+    {step:'01 / 10',word:'analyst',ipa:'/ˈænəlɪst/',trans:'analista',ex:'He is an analyst in the finance team.',pt:'Ele é analista da equipe financeira.',why:'Cargo muito comum em empresas do agro — aparece no Áudio 1 (Pedro).'},
+    {step:'02 / 10',word:'finance team',ipa:'/ˈfaɪnæns tiːm/',trans:'equipe financeira',ex:'Pedro works in the finance team. He is from Goiânia.',pt:'Pedro trabalha na equipe financeira. Ele é de Goiânia.',why:'Departamento citado no Áudio 1 — junto com operations team e sales team.'},
+    {step:'03 / 10',word:'operations team',ipa:'/ˌɒpəˈreɪʃnz tiːm/',trans:'equipe de operações',ex:'Carlos is in the operations team. He is the director.',pt:'Carlos é da equipe de operações. Ele é o diretor.',why:'Departamento central em cooperativas e fazendas de grande porte no agro.'},
+    {step:'04 / 10',word:'unavailable',ipa:'/ˌʌnəˈveɪləbl/',trans:'indisponível',ex:'Carlos is on a business trip. He is unavailable today.',pt:'Carlos está em viagem. Ele está indisponível hoje.',why:'Aparece no Áudio 2 — use para explicar por que um colega não pode atender.'},
+    {step:'05 / 10',word:'at his desk',ipa:'/æt hɪz desk/',trans:'na mesa dele / no posto de trabalho',ex:'Pedro is at his desk. He is available right now.',pt:'Pedro está na mesa dele. Ele está disponível agora.',why:'Expressão do Áudio 2 — localização específica dentro do escritório.'},
+    {step:'06 / 10',word:'agronomist',ipa:'/ˌæɡrəˈnɒmɪst/',trans:'agrônomo / agrônoma',ex:'She is an agronomist. She is from the agribusiness sector.',pt:'Ela é agrônoma. Ela é do setor de agronegócio.',why:'Profissão central no agro — aparece no Áudio 3 (Laura Campos). Note o artigo AN antes de vogal.'},
+    {step:'07 / 10',word:'agribusiness sector',ipa:'/ˈæɡrɪˌbɪznəs ˈsektər/',trans:'setor de agronegócio',ex:'She is from the agribusiness sector.',pt:'Ela é do setor de agronegócio.',why:'Aparece no Áudio 3 — use para contextualizar sua área de atuação para parceiros internacionais.'},
+    {step:'08 / 10',word:'HR team',ipa:'/eɪtʃ ɑːr tiːm/',trans:'equipe de RH / Recursos Humanos',ex:'The HR team is on floor 2.',pt:'A equipe de RH é no 2º andar.',why:'Aparece no Áudio 3 — HR = Human Resources, pronúncia: Eitch-Ar, não Agá-Érre.'},
+    {step:'09 / 10',word:'Welcome to the team!',ipa:'/ˈwelkəm tuː ðə tiːm/',trans:'Bem-vindo/a à equipe!',ex:'Welcome to the team, Laura!',pt:'Bem-vinda à equipe, Laura!',why:'Frase de boas-vindas do Áudio 3 — essencial para receber novos colegas em inglês.'},
+    {step:'10 / 10',word:'The meeting is on Thursday at 10 AM.',ipa:'',trans:'Chunk completo de agendamento com ON + AT',ex:'The meeting is on Thursday at 10 AM.',pt:'A reunião é na quinta às 10h.',why:'Modelo perfeito de agendamento — combine ON + dia com AT + horário sempre.'},
+  ],
+  d5:[
+    {step:'01 / 10',word:'This is Ana. She is the sales coordinator.',ipa:'',trans:'Apresentar um colega individualmente — This is + nome + He/She is a + cargo',ex:'This is Ana. She is the sales coordinator.',pt:'Esta é a Ana. Ela é a coordenadora de vendas.',why:'Fórmula padrão de apresentação — pratique substituindo o nome e cargo por colegas reais.'},
+    {step:'02 / 10',word:'She is from the sales team.',ipa:'',trans:'Indicar o departamento — He/She is from the + departamento + team',ex:'She is from the sales team. He is from the finance team.',pt:'Ela é da equipe de vendas. Ele é da equipe financeira.',why:'Contextualize sempre o departamento — parceiros internacionais precisam saber com quem falam.'},
+    {step:'03 / 10',word:'He is from Brasília.',ipa:'',trans:'Informar a origem — He/She is from + cidade ou país',ex:'He is from Brasília. She is from São Paulo.',pt:'Ele é de Brasília. Ela é de São Paulo.',why:'Informação de origem cria conexão pessoal em apresentações — muito valorizada por estrangeiros.'},
+    {step:'04 / 10',word:"She isn't here. She is in a meeting.",ipa:'',trans:'Explicar indisponibilidade — He/She is in a meeting / on a business trip / on vacation',ex:"She isn't here. She is in a meeting.",pt:'Ela não está aqui. Ela está em uma reunião.',why:'Sempre explique ONDE a pessoa está quando disser que não está disponível — mais profissional.'},
+    {step:'05 / 10',word:'He is available on Thursday at ten am.',ipa:'',trans:'Informar disponibilidade — He/She is available on + dia + at + horário',ex:'He is available on Thursday at 10am.',pt:'Ele está disponível na quinta às 10h.',why:'ON + dia + AT + horário — estrutura completa de agendamento em inglês profissional.'},
+    {step:'06 / 10',word:'Her extension is twenty-two.',ipa:'',trans:'Compartilhar ramal — His/Her extension is + número',ex:"Her extension is twenty-two. It's on floor three, room seventeen.",pt:'O ramal dela é 22. É no 3º andar, sala 17.',why:'Extension + floor + room — as três informações que parceiros sempre pedem em primeiros contatos.'},
+    {step:'07 / 10',word:'They are excited to meet you.',ipa:'',trans:'Fechar uma apresentação de equipe positivamente',ex:'They are our top team. They are excited to meet you.',pt:'Eles são nossa melhor equipe. Eles estão animados para conhecer você.',why:'Frase de fechamento poderosa — cria expectativa positiva antes de uma reunião com clientes.'},
+    {step:'08 / 10',word:'Is she available this afternoon?',ipa:'',trans:'Perguntar disponibilidade — Is he/she available + horário ou dia',ex:'Is she available this afternoon? Yes, she is!',pt:'Ela está disponível esta tarde? Sim, está!',why:'Pergunta mais comum em check-ins de equipe — sempre seguida de short answer: Yes, he is.'},
+    {step:'09 / 10',word:'Who is the director?',ipa:'',trans:'Perguntar identidade — Who is the + cargo',ex:'Who is the director? He is Carlos.',pt:'Quem é o diretor? Ele é o Carlos.',why:'WHO IS pergunta identidade — use para entrevistar o professor ou apresentar colegas na aula.'},
+    {step:'10 / 10',word:'She is very experienced in agribusiness.',ipa:'',trans:'Destacar a expertise — He/She is very experienced in + área',ex:'This is Ana. She is very experienced in agribusiness.',pt:'Esta é a Ana. Ela é muito experiente em agronegócio.',why:'Adjetivo de alto impacto em apresentações — mostra confiança e valoriza o colega apresentado.'},
+  ],
+};
+
+const FC_STATE={d1:{idx:0,spd:1,exSpd:1,voice:null},d2:{idx:0,spd:1,exSpd:1,voice:null},d3:{idx:0,spd:1,exSpd:1,voice:null},d4:{idx:0,spd:1,exSpd:1,voice:null},d5:{idx:0,spd:1,exSpd:1,voice:null}};
+let sharedVoice=null,voicesLoaded=false,voiceRetries=0;
+const PREF_VOICES=['Google US English','Samantha','Karen','Google UK English Female','Microsoft Aria'];
+
+function getBestVoices(){const all=window.speechSynthesis?window.speechSynthesis.getVoices():[];const en=all.filter(v=>v.lang.startsWith('en'));if(!en.length)return[];return[...en].sort((a,b)=>{const rank=v=>{const i=PREF_VOICES.findIndex(p=>p.split(' ').every(part=>v.name.includes(part)));return i<0?99:i;};return rank(a)-rank(b);}).slice(0,4);}
+
+function applyVoicesToAllDecks(top){if(!top.length)return;sharedVoice=top[0];voicesLoaded=true;['d1','d2','d3','d4','d5'].forEach(deckId=>{FC_STATE[deckId].voice=top[0];const loading=document.getElementById('v-loading-'+deckId);if(loading)loading.style.display='none';const container=document.getElementById('v-btns-'+deckId);if(!container)return;container.innerHTML='';top.forEach((v,i)=>{const b=document.createElement('button');b.className='vbtn'+(i===0?' active':'');b.textContent=v.name.replace('Google ','').replace('Microsoft ','').replace(' Online Natural','').replace(' Online','').replace(' (Natural)','');b.onclick=()=>{['d1','d2','d3','d4','d5'].forEach(id=>FC_STATE[id].voice=v);sharedVoice=v;stopAllFC(deckId);['d1','d2','d3','d4','d5'].forEach(id=>{const c2=document.getElementById('v-btns-'+id);if(!c2)return;Array.from(c2.querySelectorAll('.vbtn')).forEach((btn,idx)=>btn.classList.toggle('active',idx===i));});};container.appendChild(b);});});}
+
+function tryLoadVoices(){const top=getBestVoices();if(top.length){applyVoicesToAllDecks(top);return;}voiceRetries++;if(voiceRetries<20)setTimeout(tryLoadVoices,voiceRetries<5?100:300);}
+if(window.speechSynthesis){window.speechSynthesis.onvoiceschanged=()=>{if(!voicesLoaded)tryLoadVoices();};tryLoadVoices();}
+
+function stopAllFC(deckId){window.speechSynthesis&&window.speechSynthesis.cancel();['abtn-word-'+deckId,'abtn-ex-'+deckId].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('playing');});}
+function sayFC(text,rate,btnId,deckId){stopAllFC(deckId);if(!window.speechSynthesis||!text)return;const u=new SpeechSynthesisUtterance(text);const v=FC_STATE[deckId].voice||sharedVoice;if(v)u.voice=v;u.lang='en-US';u.rate=rate;const btn=document.getElementById(btnId);if(btn)btn.classList.add('playing');u.onend=u.onerror=()=>{if(btn)btn.classList.remove('playing');};window.speechSynthesis.speak(u);}
+function sayWord(deckId){const c=CARDS[deckId][FC_STATE[deckId].idx];sayFC(c.word,FC_STATE[deckId].spd,'abtn-word-'+deckId,deckId);}
+function sayEx(deckId){const c=CARDS[deckId][FC_STATE[deckId].idx];sayFC(c.ex,FC_STATE[deckId].exSpd,'abtn-ex-'+deckId,deckId);}
+function setSpd(deckId,s,e){e.stopPropagation();FC_STATE[deckId].spd=s;document.getElementById('spd1-'+deckId).classList.toggle('active',s===1);document.getElementById('spd07-'+deckId).classList.toggle('active',s===0.7);sayWord(deckId);}
+function setExSpd(deckId,s,e){e.stopPropagation();FC_STATE[deckId].exSpd=s;document.getElementById('exspd1-'+deckId).classList.toggle('active',s===1);document.getElementById('exspd07-'+deckId).classList.toggle('active',s===0.7);sayEx(deckId);}
+
+function buildDots(deckId){const container=document.getElementById('fc-dots-'+deckId);if(!container)return;container.innerHTML='';CARDS[deckId].forEach((_,i)=>{const d=document.createElement('div');d.className='fc-dot'+(i===0?' active':'');d.id='dot-'+deckId+'-'+i;d.onclick=()=>{FC_STATE[deckId].idx=i;renderFC(deckId);updateDots(deckId);};container.appendChild(d);});}
+function updateDots(deckId){CARDS[deckId].forEach((_,i)=>{const d=document.getElementById('dot-'+deckId+'-'+i);if(!d)return;d.className='fc-dot'+(i===FC_STATE[deckId].idx?' active':i<FC_STATE[deckId].idx?' done':'');});}
+function renderFC(deckId){const c=CARDS[deckId][FC_STATE[deckId].idx];document.getElementById('fc-step-'+deckId).textContent=c.step;document.getElementById('fc-word-'+deckId).textContent=c.word;document.getElementById('fc-ipa-'+deckId).textContent=c.ipa;document.getElementById('fc-trans-'+deckId).textContent=c.trans;document.getElementById('fc-ex-'+deckId).textContent=c.ex;document.getElementById('fc-ex-pt-'+deckId).textContent=c.pt;document.getElementById('fc-why-'+deckId).textContent='Por que importa: '+c.why;document.getElementById('fc-counter-'+deckId).textContent=(FC_STATE[deckId].idx+1)+' de '+CARDS[deckId].length;stopAllFC(deckId);document.getElementById('fc-front-'+deckId).classList.remove('hidden');document.getElementById('fc-back-'+deckId).classList.remove('visible');}
+function handleCardClick(e,deckId){if(e.target.closest('.audio-btns')||e.target.closest('.abtn')||e.target.closest('.spd-btn'))return;const front=document.getElementById('fc-front-'+deckId);const back=document.getElementById('fc-back-'+deckId);const flipped=front.classList.contains('hidden');front.classList.toggle('hidden',!flipped);back.classList.toggle('visible',!flipped);}
+function fcNav(deckId,dir){FC_STATE[deckId].idx=(FC_STATE[deckId].idx+dir+CARDS[deckId].length)%CARDS[deckId].length;renderFC(deckId);updateDots(deckId);}
+['d1','d2','d3','d4','d5'].forEach(id=>{buildDots(id);renderFC(id);});
+
+const ANSWERS={
+  'd1e1_1':'he is','d1e1_2':'she is','d1e1_3':'they are','d1e1_4':'she is','d1e1_5':'they are','d1e1_6':'he is','d1e1_7':'they are',
+  'd1dr_1':'he is a manager','d1dr_2':'she is from brazil','d1dr_3':'he is a director','d1dr_4':'she is an analyst','d1dr_5':'he is at work','d1dr_6':'she is busy','d1dr_7':'he is on vacation','d1dr_8':'she is from mexico','d1dr_9':'he is a consultant','d1dr_10':'she is excited',
+  'd1tr_1':'she is the sales coordinator','d1tr_2':'they are from the technical team','d1tr_3':'he is from brasilia','d1tr_4':'she is in a meeting now','d1tr_5':'they are excited to meet you','d1tr_6':'he is our new analyst',
+  'd2e1_1':'he isnt available','d2e1_2':'she isnt on vacation','d2e1_3':'he isnt in a meeting','d2e1_4':'she isnt from argentina','d2e1_5':'they arent busy','d2e1_6':'he isnt the director','d2e1_7':'she isnt at the conference','d2e1_8':'they arent from brazil','d2e1_9':'he isnt a field supervisor','d2e1_10':'she isnt the ceo',
+  'd2e2_1':'is he the manager','d2e2_2':'is she from brazil','d2e2_3':'are they engineers','d2e2_4':'is he available','d2e2_5':'is she on vacation','d2e2_6':'is he at the conference','d2e2_7':'is she in the sales team','d2e2_8':'are they busy','d2e2_9':'is he on a business trip','d2e2_10':'is she the new agronomist',
+  'd2tr_1':'she isnt from sao paulo','d2tr_2':'they arent busy today','d2tr_3':'is she available','d2tr_4':'is he the new agronomist','d2tr_5':'he isnt at the conference','d2tr_6':'are they engineers',
+  'd3e2_1':'who is the engineer','d3e2_2':'who is the coordinator','d3e2_3':'where is carlos','d3e2_4':'where is the director','d3e2_5':'are you at work','d3e2_6':'are you in a meeting','d3e2_7':'is he at the conference','d3e2_8':'is he excited',
+  'd3n_1':'seventeen','d3n_2':'thirteen','d3n_3':'twenty','d3n_4':'twenty-nine','d3n_5':'thirty',
+  'd3tr_1':'who is the engineer','d3tr_2':'she is available on thursday','d3tr_3':'my extension is twenty-two','d3tr_4':'the meeting is on monday at 10am','d3tr_5':'she is at a conference in room fifteen','d3tr_6':'his office is on floor three',
+  'a1q1':'carlos','a1q2':'sales','a1q3':'goiania','a1q4':'sales coordinator','a1q5':'finance',
+  'a2q1':'he is on a business trip','a2q2':'no she isnt she is in a meeting','a2q3':'he is at his desk','a2q4':'yes he is he is available right now',
+  'a3q1':'laura','a3q2':'campos','a3q3':'agronomist','a3q4':'agribusiness','a3q5':'cuiaba','a3q6':'22','a3q7':'3','a3q8':'17',
+  'd4tr_1':'she is an agronomist from the agribusiness sector','d4tr_2':'he is on a business trip he is unavailable today','d4tr_3':'she is in the office but she is in a meeting','d4tr_5':'they are happy to meet you',
+  'd5tr_1':'this is laura she is an agronomist and she is from cuiaba','d5tr_2':'he isnt here now he is on a business trip','d5tr_3':'they are our best team they are excited','d5tr_5':'he is the operations director he is very experienced',
+};
+
+const SETS={
+  'd1-ex1':['d1e1_1','d1e1_2','d1e1_3','d1e1_4','d1e1_5','d1e1_6','d1e1_7'],
+  'd1-dr':['d1dr_1','d1dr_2','d1dr_3','d1dr_4','d1dr_5','d1dr_6','d1dr_7','d1dr_8','d1dr_9','d1dr_10'],
+  'd1-tr':['d1tr_1','d1tr_2','d1tr_3','d1tr_4','d1tr_5','d1tr_6'],
+  'd2-ex1':['d2e1_1','d2e1_2','d2e1_3','d2e1_4','d2e1_5','d2e1_6','d2e1_7','d2e1_8','d2e1_9','d2e1_10'],
+  'd2-ex2':['d2e2_1','d2e2_2','d2e2_3','d2e2_4','d2e2_5','d2e2_6','d2e2_7','d2e2_8','d2e2_9','d2e2_10'],
+  'd2-tr':['d2tr_1','d2tr_2','d2tr_3','d2tr_4','d2tr_5','d2tr_6'],
+  'd3-ex2':['d3e2_1','d3e2_2','d3e2_3','d3e2_4','d3e2_5','d3e2_6','d3e2_7','d3e2_8'],
+  'd3-num':['d3n_1','d3n_2','d3n_3','d3n_4','d3n_5'],
+  'd3-tr':['d3tr_1','d3tr_2','d3tr_3','d3tr_4','d3tr_5','d3tr_6'],
+  'd4-tr':['d4tr_1','d4tr_2','d4tr_3','d4tr_5'],
+  'd5-tr':['d5tr_1','d5tr_2','d5tr_3','d5tr_5'],
+};
+const EMOJIS=['😬','🙂','😊','🌟','🏆'];
+
+function showDay(n){document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('day-'+n).classList.add('active');document.querySelectorAll('.tab-btn')[n-1].classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+function toggleScript(id){const el=document.getElementById(id);el.style.display=el.style.display==='block'?'none':'block';}
+function showModel(id){const el=document.getElementById(id);el.style.display=el.style.display==='block'?'none':'block';}
+
+function normalize(str){return str.toLowerCase().replace(/[áàãâä]/g,'a').replace(/[éèêë]/g,'e').replace(/[íìîï]/g,'i').replace(/[óòõôö]/g,'o').replace(/[úùûü]/g,'u').replace(/[ç]/g,'c').replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();}
+
+function checkOne(inputId,correctRaw){const input=document.getElementById(inputId);const fb=document.getElementById('fb-'+inputId);if(!input||!fb)return;const user=normalize(input.value);const key=normalize(correctRaw);const parts=key.split('.').map(p=>p.trim()).filter(Boolean);const ok=parts.length>1?parts.every(p=>user.includes(p)):(user===key||user.includes(key));input.style.borderColor=ok?'#16a34a':'#dc2626';fb.textContent=ok?'✅ Correto!':'❌ '+correctRaw;fb.className='feedback '+(ok?'correct':'wrong');}
+
+function checkOpen(inputId,modelText){const fb=document.getElementById('fb-'+inputId);if(fb){fb.textContent='💡 Exemplo: '+modelText;fb.className='feedback open';}}
+
+function checkAll(setId){const ids=SETS[setId];if(!ids)return;ids.forEach(id=>{if(ANSWERS[id])checkOne(id,ANSWERS[id]);});const correct=ids.filter(id=>{const fb=document.getElementById('fb-'+id);return fb&&fb.classList.contains('correct');}).length;const total=ids.length;const pct=Math.round((correct/total)*100);const emoji=EMOJIS[Math.min(Math.floor(pct/25),4)];const box=document.getElementById('score-'+setId);if(box){box.style.display='block';box.textContent=emoji+' '+correct+'/'+total+' corretas ('+pct+'%)';box.style.color=pct>=80?'#166534':pct>=50?'#92400e':'#991b1b';box.style.borderColor=pct>=80?'#16a34a':pct>=50?'#f59e0b':'#dc2626';}}
+
+const STORAGE_KEY='talk_w3_progress';
+
+function saveProgress(){const data={};document.querySelectorAll('input[type="text"],input[type="hidden"]').forEach(el=>{if(el.id)data['input_'+el.id]=el.value;});document.querySelectorAll('textarea').forEach(el=>{if(el.id)data['ta_'+el.id]=el.value;});document.querySelectorAll('.feedback').forEach(el=>{if(el.id)data['fb_'+el.id]={text:el.textContent,cls:el.className};});document.querySelectorAll('input[type="text"]').forEach(el=>{if(el.id)data['bc_'+el.id]=el.style.borderColor;});const activePanel=document.querySelector('.day-panel.active');if(activePanel)data['activeDay']=activePanel.id;data['savedAt']=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});localStorage.setItem(STORAGE_KEY,JSON.stringify(data));const ind=document.getElementById('save-indicator');if(ind){ind.textContent='✓ Salvo '+data['savedAt'];ind.style.color='rgba(255,255,255,.9)';setTimeout(()=>{ind.style.color='rgba(255,255,255,.6)';},2000);}}
+
+function restoreProgress(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;let data;try{data=JSON.parse(raw);}catch(e){return;}Object.keys(data).forEach(k=>{if(k.startsWith('input_')){const el=document.getElementById(k.replace('input_',''));if(el)el.value=data[k];}if(k.startsWith('ta_')){const el=document.getElementById(k.replace('ta_',''));if(el)el.value=data[k];}if(k.startsWith('bc_')){const el=document.getElementById(k.replace('bc_',''));if(el&&data[k])el.style.borderColor=data[k];}if(k.startsWith('fb_')){const el=document.getElementById(k.replace('fb_',''));if(el&&data[k]){el.textContent=data[k].text;el.className=data[k].cls;}}});Object.keys(SETS).forEach(setId=>{const box=document.getElementById('score-'+setId);if(!box)return;const correct=SETS[setId].filter(id=>{const fb=document.getElementById('fb-'+id);return fb&&fb.classList.contains('correct');}).length;if(correct>0){const total=SETS[setId].length;const pct=Math.round((correct/total)*100);box.style.display='block';box.textContent=EMOJIS[Math.min(Math.floor(pct/25),4)]+' '+correct+'/'+total+' corretas ('+pct+'%)';box.style.color=pct>=80?'#166534':pct>=50?'#92400e':'#991b1b';box.style.borderColor=pct>=80?'#16a34a':pct>=50?'#f59e0b':'#dc2626';}});if(data['activeDay']){const match=data['activeDay'].match(/day-(\d)/);if(match)showDay(parseInt(match[1]));}const ind=document.getElementById('save-indicator');if(ind&&data['savedAt'])ind.textContent='Último save: '+data['savedAt'];}
+
+function clearProgress(){if(!confirm('Limpar todo o progresso desta semana? Esta ação não pode ser desfeita.'))return;localStorage.removeItem(STORAGE_KEY);document.querySelectorAll('input[type="text"]').forEach(el=>{el.value='';el.style.borderColor='';});document.querySelectorAll('input[type="hidden"]').forEach(el=>{el.value='';});document.querySelectorAll('textarea').forEach(el=>el.value='');document.querySelectorAll('.feedback').forEach(el=>{el.textContent='';el.className='feedback';});document.querySelectorAll('.score-box').forEach(el=>el.style.display='none');document.querySelectorAll('.example-model,.script-box').forEach(el=>el.style.display='none');const ind=document.getElementById('save-indicator');if(ind)ind.textContent='—';}
+
+setInterval(saveProgress,60000);
+window.addEventListener('DOMContentLoaded',restoreProgress);
+</script>
+</body>
+</html>
