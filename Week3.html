@@ -210,7 +210,18 @@
   .pdf-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--navy);color:#fff;border:none;border-radius:99px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;}
   .pdf-btn:hover{background:#0f1e4a;}.pdf-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   @media print{
-    #main-header,#day-tabs,.video-btn,.audio-btn,.voice-row,.fc-dots,.fc-nav-row,.btn-check,.btn-check-all,.hbtn,.pdf-btn,.save-indicator,.script-toggle-btn,.script-box,.btn-show-model,.example-model{display:none!important;}
+    #main-header,#day-tabs,.video-btn,.audio-btn,.voice-row,.fc-dots,.fc-nav-row,
+    .btn-check,.btn-check-all,.hbtn,.pdf-btn,.save-indicator,.script-toggle-btn,
+    .script-box,.btn-show-model,.example-model,
+    .listen-play-btn,.listen-reveal-btn,.listen-check-btn,.listen-answer,.listen-fb{display:none!important;}
+    .day-panel{display:none!important;}.day-panel.active{display:block!important;}
+    body{background:#fff;padding:0;}.card{box-shadow:none;border:1px solid #ddd;break-inside:avoid;}
+    input[type="text"]{border:none!important;border-bottom:1.5px solid #444!important;background:transparent!important;border-radius:0!important;box-shadow:none!important;min-width:180px;color:#000!important;}
+    input[type="text"]::placeholder{color:transparent!important;opacity:0!important;}
+    textarea,.listen-input{border:none!important;border-bottom:1.5px solid #444!important;background:transparent!important;border-radius:0!important;box-shadow:none!important;resize:none!important;min-height:40px;color:#000!important;}
+    textarea::placeholder,.listen-input::placeholder{color:transparent!important;opacity:0!important;}
+    .feedback,.score-box,.listen-fb{display:none!important;}
+    .ex-item,.listen-row{margin-bottom:10px;}}
     .day-panel{display:none!important;}.day-panel.active{display:block!important;}
     body{background:#fff;padding:0;}.card{box-shadow:none;border:1px solid #ddd;break-inside:avoid;}
     .day-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
@@ -233,6 +244,13 @@
   .listen-reveal-btn:hover{background:var(--teal-light);}
   .listen-answer{display:none;margin-top:6px;padding:8px 12px;background:var(--teal-light);border-radius:var(--radius-sm);font-family:'JetBrains Mono',monospace;font-size:.83rem;color:var(--teal);line-height:1.5;}
   @media(max-width:600px){.listen-row{flex-direction:column;}.listen-num{padding-top:0;}}
+  
+  .listen-check-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:var(--green);color:#fff;border:none;border-radius:99px;font-size:.8rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .listen-check-btn:hover{background:#155a15;}
+  .listen-fb{margin-top:6px;font-size:.85rem;line-height:1.5;padding:6px 10px;border-radius:6px;}
+  .listen-fb.correct{color:var(--green);font-weight:700;background:var(--green-light);}
+  .listen-fb.wrong{color:var(--wrong,#b91c1c);background:#fee2e2;}
+  .listen-fb.wrong em{font-style:normal;font-weight:600;}
   </style>
 </head>
 <body>
@@ -396,6 +414,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d1-1" onclick="listenPlay('He is the agronomist. He is from São Paulo.', 'lbtn-d1-1')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d1-1')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d1-1', 'lans-d1-1')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d1-1">He is the agronomist. He is from São Paulo.</div>
         </div>
@@ -407,6 +426,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d1-2" onclick="listenPlay('She is the sales coordinator at AgroBrasil.', 'lbtn-d1-2')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d1-2')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d1-2', 'lans-d1-2')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d1-2">She is the sales coordinator at AgroBrasil.</div>
         </div>
@@ -418,6 +438,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d1-3" onclick="listenPlay('They are the new field representatives.', 'lbtn-d1-3')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d1-3')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d1-3', 'lans-d1-3')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d1-3">They are the new field representatives.</div>
         </div>
@@ -564,6 +585,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d2-1" onclick="listenPlay('Is he the director? No, he isn\'t. He is the manager.', 'lbtn-d2-1')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d2-1')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d2-1', 'lans-d2-1')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d2-1">Is he the director? No, he isn't. He is the manager.</div>
         </div>
@@ -575,6 +597,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d2-2" onclick="listenPlay('She isn\'t at the office today. She is at the farm.', 'lbtn-d2-2')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d2-2')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d2-2', 'lans-d2-2')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d2-2">She isn't at the office today. She is at the farm.</div>
         </div>
@@ -586,6 +609,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d2-3" onclick="listenPlay('Are they available for the meeting? Yes, they are.', 'lbtn-d2-3')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d2-3')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d2-3', 'lans-d2-3')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d2-3">Are they available for the meeting? Yes, they are.</div>
         </div>
@@ -745,6 +769,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d3-1" onclick="listenPlay('Who is the agronomist? He is on the third floor.', 'lbtn-d3-1')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d3-1')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d3-1', 'lans-d3-1')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d3-1">Who is the agronomist? He is on the third floor.</div>
         </div>
@@ -756,6 +781,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d3-2" onclick="listenPlay('Where is Patricia? She is at headquarters in São Paulo.', 'lbtn-d3-2')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d3-2')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d3-2', 'lans-d3-2')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d3-2">Where is Patricia? She is at headquarters in São Paulo.</div>
         </div>
@@ -767,6 +793,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d3-3" onclick="listenPlay('They are in room twenty-two. The meeting is on Monday.', 'lbtn-d3-3')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d3-3')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d3-3', 'lans-d3-3')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d3-3">They are in room twenty-two. The meeting is on Monday.</div>
         </div>
@@ -1041,6 +1068,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d5-1" onclick="listenPlay('He manages the crop planning and he always arrives early.', 'lbtn-d5-1')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d5-1')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d5-1', 'lans-d5-1')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d5-1">He manages the crop planning and he always arrives early.</div>
         </div>
@@ -1052,6 +1080,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d5-2" onclick="listenPlay('Her schedule is very busy because she coordinates three departments.', 'lbtn-d5-2')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d5-2')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d5-2', 'lans-d5-2')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d5-2">Her schedule is very busy because she coordinates three departments.</div>
         </div>
@@ -1063,6 +1092,7 @@
           <div class="listen-actions">
             <button class="listen-play-btn" id="lbtn-d5-3" onclick="listenPlay('Does he work at the office? No, he doesn\'t. He works in the field.', 'lbtn-d5-3')">🔊 Ouvir</button>
             <button class="listen-reveal-btn" onclick="listenReveal('lans-d5-3')">👁 Ver frase</button>
+            <button class="listen-check-btn" onclick="listenCheck('linp-d5-3', 'lans-d5-3')">✓ Checar</button>
           </div>
           <div class="listen-answer" id="lans-d5-3">Does he work at the office? No, he doesn't. He works in the field.</div>
         </div>
@@ -1263,6 +1293,23 @@ function listenReveal(answerId) {
   el.style.display = el.style.display === 'block' ? 'none' : 'block';
 }
 
+
+function listenCheck(inputId, answerId) {
+  const inp = document.getElementById(inputId);
+  const ans = document.getElementById(answerId);
+  if (!inp || !ans) return;
+  const norm = s => s.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,' ');
+  const user = norm(inp.value);
+  const correct = norm(ans.textContent);
+  const existing = inp.closest('.listen-controls').querySelector('.listen-fb');
+  if (existing) existing.remove();
+  const fb = document.createElement('div');
+  fb.className = 'listen-fb ' + (user === correct ? 'correct' : 'wrong');
+  fb.innerHTML = user === correct
+    ? '✅ Correto!'
+    : '❌ Resposta correta: <em>' + ans.textContent + '</em>';
+  inp.closest('.listen-controls').appendChild(fb);
+}
 </script>
 </body>
 </html>
