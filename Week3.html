@@ -38,7 +38,7 @@
   .tab-btn:hover{background:var(--gray-50);color:var(--green);}
   .tab-btn.active{color:var(--green);border-bottom-color:var(--green);background:var(--green-light);}
 
-  .day-panel{display:none;max-width:900px;margin:0 auto;padding:32px 20px 60px;}
+  .day-panel{display:none;max-width:900px;margin:0 auto;padding:calc(var(--header-h) + var(--tabs-h) + 24px) 20px 60px;}
   .day-panel.active{display:block;}
 
   .day-hero{border-radius:var(--radius);padding:28px 32px;margin-bottom:28px;background:linear-gradient(135deg,var(--green) 0%,var(--green-mid) 100%);color:#fff;position:relative;overflow:hidden;}
